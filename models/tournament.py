@@ -1,4 +1,6 @@
 import datetime
+import random
+from models.round import Round
 
 
 class Tournament:
@@ -10,7 +12,7 @@ class Tournament:
         self.nrRound = nrRound
         self.actualRound = 0
         self.roundList = []
-        self.payerList = []
+        self.playerList = []
         self.description = f"Tournoi {self.name}"
 
     def __str__(self):
@@ -37,8 +39,8 @@ class Tournament:
     def getRoundList(self):
         return self.roundList
 
-    def getPayerList(self):
-        return self.payerList
+    def getPlayerList(self):
+        return self.playerList
 
     def getDescription(self):
         return self.description
@@ -62,7 +64,31 @@ class Tournament:
         self.roundList.append(round)
 
     def addPayerList(self, player):
-        self.payerList.append(player)
+        score = 0
+        self.playerList.append((player, score))
 
     def setDescription(self, newDescription):
         self.description = newDescription
+
+    def shufflePlayer(self):
+        random.shuffle(self.playerList)
+
+    def printPlayerList(self):
+        print(f"-----Liste des joueurs du tournoi {self.name}-----")
+        for player,score in self.playerList:
+            print(f"{player.nrFFE} --- Elo ({player.elo}) -- Score : {score} - {player.firstName}  {player.lastName}  {player.birthName}")
+
+    def createRound(self):
+        self.roundList.append(Round())
+        self.roundList[self.actualRound].createMatchList(self.playerList)
+
+    def updateScores(self):
+        for match in self.roundList[self.actualRound].matchList:
+            if match.duo[0][1] is not None:
+                player1, player2 = match.duo[0][0], match.duo[1][0]
+                for i, (player, score) in enumerate(self.playerList):
+                    if player == player1:
+                        self.playerList[i] = (player, score + match.duo[0][1])
+                    elif player == player2:
+                        self.playerList[i] = (player, score + match.duo[1][1])
+        self.actualRound += 1
