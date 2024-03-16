@@ -6,18 +6,18 @@ from models.match import Match
 
 
 
-eric = Player('Eric', 'BARILLER')
-eric2 = Player('Marc', 'BARILLER')
-eric3 = Player('Jean-marie', 'BARILLER')
-eric4 = Player('Lucie', 'BARILLER')
-marc = Player('Charline', 'BARILLER')
-marc2 = Player('Augustine', 'BARILLER')
-marc3 = Player('Achille', 'BARILLER')
-marc4 = Player('Abigaëlle', 'BARILLER')
-marc5 = Player('Véronique', 'BARILLER')
-marc6 = Player('Sophie', 'BARILLER')
-marc7 = Player('Cassiopée', 'BARILLER')
-marc8 = Player('Zeus', 'BARILLER')
+eric = Player('BARILLER','Eric')
+eric2 = Player('BARILLER','Marc')
+eric3 = Player('BARILLER', 'Jean-marie')
+eric4 = Player('BARILLER','Lucie')
+marc = Player('BARILLER', 'Charline')
+marc2 = Player( 'BARILLER','Augustine')
+marc3 = Player( 'BARILLER', 'Achille')
+marc4 = Player( 'BARILLER', 'Abigaëlle')
+marc5 = Player( 'BARILLER', 'Véronique')
+marc6 = Player( 'BARILLER', 'Sophie')
+marc7 = Player( 'BARILLER', 'Cassiopée')
+marc8 = Player('BARILLER', 'Zeus')
 
 tournoi = Tournament('Noël BARILLER', 'Sablé')
 tournoi.addPayerList(eric)
@@ -33,18 +33,18 @@ tournoi.addPayerList(marc6)
 tournoi.addPayerList(marc7)
 tournoi.addPayerList(marc8)
 
-tournoi.printPlayerList()
+
 
 for i in range(10):
     tournoi.createRound()
     tournoi.roundList[i].playRound()
     tournoi.roundList[i].__str__()
     tournoi.updateScores()
-    tournoi.printPlayerList()
-    tournoi.shufflePlayer()
+
+
+eric.getListMatch()
 
 tournoi.printPlayerList()
-
 #
 # 
 # 

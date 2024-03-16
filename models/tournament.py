@@ -79,6 +79,11 @@ class Tournament:
             print(f"{player.nrFFE} --- Elo ({player.elo}) -- Score : {score} - {player.firstName}  {player.lastName}  {player.birthName}")
 
     def createRound(self):
+        if self.actualRound != 0:
+            self.classifyPlayers(self.playerList)
+        else: 
+            self.shufflePlayer()
+        self.printPlayerList()
         self.roundList.append(Round())
         self.roundList[self.actualRound].createMatchList(self.playerList)
 
@@ -92,3 +97,6 @@ class Tournament:
                     elif player == player2:
                         self.playerList[i] = (player, score + match.duo[1][1])
         self.actualRound += 1
+        
+    def classifyPlayers(self,playerlist):
+        self.playerList = sorted(self.playerList, key=lambda x: x[1], reverse=True)
