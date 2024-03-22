@@ -1,3 +1,4 @@
+import json
 
 class Player:
     def __init__(self, lastName, firstName,
@@ -8,6 +9,20 @@ class Player:
         self.nrFFE = nrFFE
         self.elo = elo
         self.listMatch = []
+
+
+
+    def to_dict(self):
+        return {
+            "player": {
+                "nrFFE": self.nrFFE,
+                "lastName": self.lastName,
+                "firstName": self.firstName,
+                "birthName": self.birthName,
+                "elo": self.elo,
+                #"listMatch": [match.to_dict() for match in self.listMatch]
+            }
+        }
 
     def __str__(self):
         print(f"{self.lastName}, {self.firstName}, "
@@ -48,3 +63,4 @@ class Player:
         print(f"-----------------Liste des matchs joués par {self.lastName} {self.firstName}-----------------------\n")
         for match in self.listMatch:
             match.__str__()
+

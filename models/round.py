@@ -13,6 +13,19 @@ class Round:
         self.startDate = datetime.datetime.today()
         self.endDate = None
 
+
+    def to_dict(self):
+        return {
+            "round": {
+                "id": self.id,
+                "name": self.name,
+                "matchList": [match.to_dict() for match in self.matchList],
+                "startDate": self.startDate.isoformat(),
+                "endDate": self.endDate.isoformat(),
+            }
+        }
+
+
     def addMatch(self, match):
         self.matchList.append(match)
 

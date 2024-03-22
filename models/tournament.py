@@ -3,8 +3,13 @@ import random
 from models.round import Round
 
 
+
 class Tournament:
+    id = 0
+        
     def __init__(self, name, place, nrRound=4):
+        Tournament.id += 1
+        self.id = Tournament.id
         self.name = name
         self.place = place
         self.startDate = datetime.datetime.today()
@@ -17,6 +22,39 @@ class Tournament:
 
     def __str__(self):
         return f"Tournoi {self.name} commencé le : {self.startDate}"
+
+    def to_dict(self):
+        if self.endDate == None:
+            return {
+                "tournament": {
+                    "id": self.id,
+                    "name": self.name,
+                    "place": self.place,
+                    "startDate": self.startDate.isoformat(),
+                    "endDate": None,
+                    "nrRound": self.nrRound,
+                    "actualRound": self.actualRound,
+                    "roundList": [round.to_dict() for round in self.roundList],
+                    "playerList": [{"player": player.to_dict(), "score": score} for player, score in self.playerList],
+                    "description": self.description,
+                }
+            }         
+        else:
+            return {
+                "tournament": {
+                    "id": self.id,
+                    "name": self.name,
+                    "place": self.place,
+                    "startDate": self.startDate.isoformat(),
+                    "endDate": self.endDate.isoformat(),
+                    "nrRound": self.nrRound,
+                    "actualRound": self.actualRound,
+                    "roundList": [round.to_dict() for round in self.roundList],
+                    "playerList": [{"player": player.to_dict(), "score": score} for player, score in self.playerList],
+                    "description": self.description,
+                }
+            }
+
 
     def getName(self):
         return self.name

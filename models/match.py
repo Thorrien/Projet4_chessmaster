@@ -9,6 +9,31 @@ class Match:
         self.duo = ([player1, None], [player2, None])
         self.date = datetime.datetime.today()
         
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "player1": {
+                "lastName": self.duo[0][0].lastName,
+                "firstName": self.duo[0][0].firstName,
+                "birthName": self.duo[0][0].birthName,
+                "nrFFE": self.duo[0][0].nrFFE,
+                "elo": self.duo[0][0].elo,
+                "score": self.duo[0][1]
+            },
+            "player2": {
+                "lastName": self.duo[1][0].lastName,
+                "firstName": self.duo[1][0].firstName,
+                "birthName": self.duo[1][0].birthName,
+                "nrFFE": self.duo[1][0].nrFFE,
+                "elo": self.duo[1][0].elo,
+                "score": self.duo[1][1]
+            },
+            "date": self.date.isoformat(),
+        }
+        
+        
+        
+        
     def jouerMatch(self):
         listeScores = [0, 0.5, 1]
         Player1Score = listeScores[random.randint(0, len(listeScores)-1)]
