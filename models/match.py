@@ -11,27 +11,15 @@ class Match:
         
     def to_dict(self):
         return {
-            "id": self.id,
-            "player1": {
-                "lastName": self.duo[0][0].lastName,
-                "firstName": self.duo[0][0].firstName,
-                "birthName": self.duo[0][0].birthName,
-                "nrFFE": self.duo[0][0].nrFFE,
-                "elo": self.duo[0][0].elo,
-                "score": self.duo[0][1]
-            },
-            "player2": {
-                "lastName": self.duo[1][0].lastName,
-                "firstName": self.duo[1][0].firstName,
-                "birthName": self.duo[1][0].birthName,
-                "nrFFE": self.duo[1][0].nrFFE,
-                "elo": self.duo[1][0].elo,
-                "score": self.duo[1][1]
-            },
-            "date": self.date.isoformat(),
+            "match": {
+                "id": self.id,
+                "player1": self.duo[0][0].to_dict(),
+                "player1score": self.duo[0][1],
+                "player2": self.duo[1][0].to_dict(),
+                "player2score": self.duo[1][1],
+                "date": self.date.isoformat(),
+            }
         }
-        
-        
         
         
     def jouerMatch(self):

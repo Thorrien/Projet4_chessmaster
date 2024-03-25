@@ -3,9 +3,17 @@ from models.tournament import Tournament
 from models.round import Round
 from models.match import Match
 from models.saveload import SaverLoader
+from controllers.centralcontrol import CentralControl
+
+controlleur = CentralControl()
+controlleur.run()
 
 
-saverloader = SaverLoader()
+
+
+
+
+#saverloader = SaverLoader()
 
 #eric = Player('BARILLER','Eric', nrFFE="AA")
 #eric2 = Player('BARILLER','Marc', nrFFE="BB")
@@ -37,7 +45,7 @@ saverloader = SaverLoader()
 
 
 
-#for i in range(1):
+#for i in range(3):
 #    tournoi.createRound()
 #    tournoi.roundList[i].playRound()
 #    tournoi.roundList[i].__str__()
@@ -46,11 +54,26 @@ saverloader = SaverLoader()
 
 #saverloader.saveTournament(tournoi)
 
-tournoi2 = saverloader.loadTournament(f"data/tournaments/1-test2-Date--2024-03-22.json")
+#tournoi2 = saverloader.loadTournament(f"data/tournaments/1-test2-Date--2024-03-24.json")
 
-print(tournoi2.__str__())
-print(tournoi2.getName())
-tournoi2.printPlayerList()
+#print(tournoi2.__str__())
+#print(tournoi2.getName())
+#tournoi2.printPlayerList()
+#print(tournoi2.actualRound)
+#for round in tournoi2.roundList:
+#    round.printListMatch()
+    
+#saverloader.readTournament()
+
+#for i in range(2):
+    
+ #   tournoi2.createRound()   
+ #   tournoi2.roundList[len(tournoi2.roundList)-1].playRound()
+#    tournoi2.roundList[len(tournoi2.roundList)-1].__str__()
+#    tournoi2.updateScores()
+
+#saverloader.updateTournament(tournoi2)
+
 
 #eric.getListMatch()
 

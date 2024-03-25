@@ -15,15 +15,26 @@ class Round:
 
 
     def to_dict(self):
-        return {
-            "round": {
-                "id": self.id,
-                "name": self.name,
-                "matchList": [match.to_dict() for match in self.matchList],
-                "startDate": self.startDate.isoformat(),
-                "endDate": self.endDate.isoformat(),
-            }
-        }
+        if self.endDate == None:
+            return {
+                "round": {
+                    "id": self.id,
+                    "name": self.name,
+                    "matchList": [match.to_dict() for match in self.matchList],
+                    "startDate": self.startDate.isoformat(),
+                    "endDate": None,
+                    }
+                }
+        else:
+            return {
+                "round": {
+                    "id": self.id,
+                    "name": self.name,
+                    "matchList": [match.to_dict() for match in self.matchList],
+                    "startDate": self.startDate.isoformat(),
+                    "endDate": self.endDate.isoformat(),
+                    }
+                }
 
 
     def addMatch(self, match):
