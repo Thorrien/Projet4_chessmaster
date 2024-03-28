@@ -12,8 +12,12 @@ class MenuManager:
                 choice = view.administration()
                 if choice == 1 :
                     admin.addmember(view, saverLoader)
-                elif choice == 5 :
-                    choice = self.initial(view)
+                elif choice == 2 :
+                    admin.modifyMember(view, saverLoader)
+                elif choice == 3 :
+                    admin.printMember(view, saverLoader)
+                elif choice == 4 :
+                    admin.printActivity(view, saverLoader)
             elif choice == 2 :
                 choice = view.tournament()
         view.quit()

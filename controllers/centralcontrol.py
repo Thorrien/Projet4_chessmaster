@@ -4,9 +4,11 @@ from views.view import View
 from time import sleep
 from controllers.menuManager import MenuManager
 from controllers.administration import Admin
+from models.activity import Activity
 
 class CentralControl:
-    def __init__(self):   
+    def __init__(self):
+        Activity("Start App").saveActivity()
         self.view = View()
         self.menuManager = MenuManager()
         self.saverLoader = SaverLoader()
@@ -17,7 +19,7 @@ class CentralControl:
     def run(self):
         self.view.accueil()
         self.view.loading()
-        sleep(2)
+        sleep(0)
         self.importData()
         self.menuManager.initial(self.view, self.admin, self.saverLoader)
 

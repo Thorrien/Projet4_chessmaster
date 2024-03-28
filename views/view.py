@@ -1,3 +1,5 @@
+from tabulate import tabulate
+
 
 class View:
     def __init__(self):
@@ -41,7 +43,7 @@ class View:
         print('--------------------------------------------------------------------')
         
     def menu(self):
-        print('--------------------------------------------------------------------')
+        print('\n\n--------------------------------------------------------------------')
         print('---------------------Que souhaitez vous faire ?---------------------')
         print('1 - Administrer le club et ses membres')
         print('2 - Gerer ou creer un tournoi')
@@ -59,7 +61,7 @@ class View:
         print('1 - Ajouter un membre')
         print("2 - Modifier les données d'un membre")
         print('3 - Afficher la liste des membres')
-        print("4 - Afficher l'historique du club")
+        print("4 - Afficher l'historique des activités du club")
         print("5 - Menu précédent")
         print("9 - Quitter le programme")
         choice = None
@@ -117,4 +119,45 @@ class View:
         else: 
             return False
 
+    def modifyPlayer1(self):
+        print('--------------------------------------------------------------------')
+        print("---------Modifier une caractéristique d'un membre ------------------")
+        print('--------------------------------------------------------------------')
+        print("\n\n Quel est le numéro FFE du Joueur ?")        
+        nrFfe = input('N°FFE : ')
+        return nrFfe
 
+    def modifyPlayer2(self, lastName, firstName, birthName, nrFFE, elo):
+            print("\n\n Quel est L'information à modifier :")
+            print(f'1 - Nom de famille :    {lastName}')
+            print(f'2 - Prénom :            {firstName}')
+            print(f'3 - Nom de naissance :  {birthName}')
+            print(f'4 - Numéro FFE :        {nrFFE}')
+            print(f'5 - Elo :               {elo}')
+            print(f'6 - Aucune')
+            choice = None
+            while choice not in ['1', '2', '3', '4', '5', '6']:
+                choice = input('Votre choix : ')
+            return choice
+        
+    def modifyPlayer3(self):
+        print("\n\n Il n'y a pas de joueur du club avec ce N° FFE, Quel est le numéro FFE du Joueur ?")        
+        nrFfe = input('N°FFE : ')
+        return nrFfe
+    
+    def modifyPlayer4(self):
+        print("\n\n Quelle est la nouvelle valeur ?")        
+        data = input(' Votre saisie : ')
+        return data
+    
+    def printMember(self, table):
+        print('\n\n--------------------------------------------------------------------')
+        print("------------------Liste des joueurs du club-------------------------")
+        print('--------------------------------------------------------------------')
+        print(tabulate(table, headers="firstrow"))
+
+    def activityList(self, table):
+        print('\n\n--------------------------------------------------------------------')
+        print("------------------Liste des joueurs du club-------------------------")
+        print('--------------------------------------------------------------------')
+        print(tabulate(table, headers="firstrow"))
