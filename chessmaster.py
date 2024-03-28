@@ -2,7 +2,7 @@ from models.player import Player
 from models.tournament import Tournament
 from models.round import Round
 from models.match import Match
-from models.saveload import SaverLoader
+from controllers.saveload import SaverLoader
 from controllers.centralcontrol import CentralControl
 
 controlleur = CentralControl()

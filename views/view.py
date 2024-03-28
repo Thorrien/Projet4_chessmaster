@@ -107,3 +107,14 @@ class View:
             if choice == 'Oui':
                 return lastName, firstName, birthName, nrFFE, elo
  
+    def modifyConf(self):
+        print("\n\nLe joueur est déja présent dans la liste des joueurs du club. Souhaitez vous le mettre à jour ? ")
+        choice = None
+        while choice not in ['Oui', 'Non']:
+            choice = input("Votre choix 'Oui' / 'Non' : ")
+        if choice == 'Oui':
+            return True
+        else: 
+            return False
+
+

@@ -11,4 +11,11 @@ class Admin:
         player.birthName = birthName
         player.nrFFE = nrFFE
         player.elo = elo
-        saverLoader.savePlayer(player)
+        if saverLoader.cheakPlayer(player):
+            if view.modifyConf():
+                saverLoader.updatePlayer(player)
+        else:
+            saverLoader.savePlayer(player)
+
+    def modifyMenber(self, view, saverLoader):
+        pass

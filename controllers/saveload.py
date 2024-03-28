@@ -56,6 +56,19 @@ class SaverLoader :
         with open("data/players/playerList.json", 'w') as mon_fichier:
             json.dump(players_data, mon_fichier)
 
+    def cheakPlayer(self, player):
+        try:
+            with open("data/players/playerList.json", 'r') as mon_fichier:
+                players_data = json.load(mon_fichier)
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
+            players_data = []
+
+        player_dict = player.to_dict()
+        for existing_player in players_data:
+            if existing_player["player"]["nrFFE"] == player_dict["player"]["nrFFE"]:
+                print(f'update du joueur {existing_player["player"]["nrFFE"]}')
+                return True
+
 
     def updatePlayer(self, player):
         with open("data/players/playerList.json", 'r') as file:

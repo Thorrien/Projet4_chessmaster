@@ -1,5 +1,5 @@
 from models.tournament import *
-from models.saveload import *
+from controllers.saveload import *
 from views.view import View
 from time import sleep
 from controllers.menuManager import MenuManager

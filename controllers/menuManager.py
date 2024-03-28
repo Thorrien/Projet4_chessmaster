@@ -4,8 +4,9 @@ class MenuManager:
         pass
 
     def initial(self, view, admin, saverLoader):
-        choice = None
+        choice=None
         while choice != 9:
+            choice = None
             choice = view.menu()
             if choice == 1 :
                 choice = view.administration()
