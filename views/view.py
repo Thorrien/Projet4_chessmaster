@@ -76,11 +76,10 @@ class View:
         print('1 - Creer un nouveau tournoi')
         print("2 - Reprendre un tournoi existant")
         print("3 - Afficher l'historique des tournois")
-        print("4 - ")
-        print("5 - Menu précédent")
+        print("4 - Menu précédent")
         print("9 - Quitter le programme")
         choice = None
-        while choice not in ['1', '2', '3', '4', '5', '9']:
+        while choice not in ['1', '2', '3', '4', '9']:
             choice = input('Votre choix : ')
         return int(choice)
     
@@ -161,3 +160,19 @@ class View:
         print("------------------Liste des joueurs du club-------------------------")
         print('--------------------------------------------------------------------')
         print(tabulate(table, headers="firstrow"))
+
+    def rapports(self):
+        print('--------------------------------------------------------------------')
+        print('-------------------------Génerer un rapport-------------------------')
+        print('----------------Quel rapport souhaitez vous générer ?---------------')
+        print('1 - Liste de tous les joueurs par ordre alphabétique')
+        print("2 - Liste de tous les tournois")
+        print("3 - Informations d'un tournoi donné")
+        print("4 - Liste des joueurs du tournoi par ordre alphabétique")
+        print("5 - Liste de tous les tours du tournoi et de tous les matchs du tour")
+        print('6 - Menu précédent')        
+        print("9 - Quitter le programme")
+        choice = None
+        while choice not in ['1', '2', '3', '4', '5', '6', '9']:
+            choice = input('Votre choix : ')
+        return int(choice)
