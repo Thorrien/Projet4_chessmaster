@@ -1,13 +1,10 @@
 from models.player import Player
 from models.round import Round
 from models.match import Match
-from models.activity import Activity
 from models.tournament import Tournament
-from models.activity import Activity
 import json
 import os
 import datetime
-
 
 
 class SaverLoader :
@@ -22,7 +19,6 @@ class SaverLoader :
                     "tournamentId": Tournament.id,
                     "roundId": Round.id,
                     "matchId": Match.id,
-                    "activity": Activity.id
                     }
                 }
         file_path = f"data/data/data.json"
@@ -37,7 +33,6 @@ class SaverLoader :
             Tournament.id = data.get("tournamentId")
             Round.id = data.get("roundId")
             Match.id = data.get("matchId")
-            Activity("Load data").saveActivity()
 
     def savePlayer(self, player):
         try:
@@ -57,23 +52,9 @@ class SaverLoader :
 
         if not player_exists:
             players_data.append(player_dict)
-            Activity("Add Player to club list").saveActivity()
 
         with open("data/players/playerList.json", 'w') as mon_fichier:
             json.dump(players_data, mon_fichier)
-
-    def cheakPlayer(self, player):
-        try:
-            with open("data/players/playerList.json", 'r') as mon_fichier:
-                players_data = json.load(mon_fichier)
-        except (FileNotFoundError, json.decoder.JSONDecodeError):
-            players_data = []
-        Activity("Cheak Player").saveActivity()
-        player_dict = player.to_dict()
-        for existing_player in players_data:
-            if existing_player["player"]["nrFFE"] == player_dict["player"]["nrFFE"]:
-                print(f'update du joueur {existing_player["player"]["nrFFE"]}')
-                return True
 
 
     def updatePlayer(self, player):
@@ -90,31 +71,16 @@ class SaverLoader :
 
         with open("data/players/playerList.json", 'w') as file:
             json.dump(players_data, file)
-        Activity("Update Player").saveActivity()
 
     def loadAllPlayers(self):
         listOfPlayers = []
         with open("data/players/playerList.json", 'r') as file:
             players_data = json.load(file)
-            Activity("Load all Player").saveActivity()
+
             for player_data in players_data:
                 player = self.createPlayerFromJson(player_data)
                 listOfPlayers.append(player)
             return listOfPlayers
-
-
-    def getPlayerFromJson(self, nrFFE):
-        with open("data/players/playerList.json", 'r') as file:
-            players_data = json.load(file)
-        for player_data in players_data:
-            if player_data["player"]["nrFFE"] == nrFFE:
-                lastName = player_data["player"]["lastName"] 
-                firstName = player_data["player"]["firstName"]
-                birthName = player_data["player"]["birthName"]
-                elo = player_data["player"]["elo"]
-                break
-        Activity("Get specific Player").saveActivity()
-        return lastName, firstName, birthName, nrFFE, elo
 
     def createPlayerFromJson(self, data):
         player_info = data.get("player")
@@ -163,7 +129,6 @@ class SaverLoader :
         date = tournament.startDate.isoformat().split("T")
         file_path = f"data/tournaments/{tournament.id}-{tournament.name}-Date--{date[0]}.json"
         tournamentData = tournament.to_dict()
-        Activity("Save Tournament").saveActivity()
         with open(file_path, 'w') as file:
             json.dump(tournamentData, file)
         print("Fichier JSON créé avec succès.")
@@ -171,7 +136,6 @@ class SaverLoader :
     
     def updateTournament(self, tournament):
         files_path = f"data/tournaments"
-        Activity("Update Tournament").saveActivity()
         for file_name in os.listdir(files_path):
             if file_name.startswith(f'{tournament.id}-{tournament.name}-Date'):
                 file_path = os.path.join(files_path, file_name)
@@ -187,26 +151,15 @@ class SaverLoader :
             date = file_name[-15:][:10]
             if os.path.isfile(file_path):  
                 tournaments.append((file_name, file_path, date))
-        Activity("Read Tournament").saveActivity()
+        print(tournaments)
         return tournaments
  
-    def loadAllTournament(self):
-        tournaments = []
-        files_path = f"data/tournaments"
-        for file_name in os.listdir(files_path):
-            file_path = os.path.join(files_path, file_name)
-            if os.path.isfile(file_path):
-                print(file_path)  
-                tournaments.append(self.loadTournament(file_path))
-        Activity("Read Tournament").saveActivity()
-        return tournaments
-
 
     def loadTournament(self, files_path):
         with open(files_path, 'r') as file:
             tournament_data = json.load(file)
             tournament_info = tournament_data.get("tournament")
-            Activity("Load Tournament").saveActivity()
+        
             id = tournament_info.get("id")
             name = tournament_info.get("name")
             place = tournament_info.get("place")
@@ -232,54 +185,3 @@ class SaverLoader :
             
             return tournament
 
-    def getAllActivity(self):
-        listOfActivity = []
-        with open("data/data/activity.json", 'r') as file:
-            activities_data = json.load(file)
-            for activity_data in activities_data:
-                activity = self.createActivityFromJson(activity_data)
-                listOfActivity.append(activity)
-            return listOfActivity
-
-
-    def createActivityFromJson(self, data):
-        activity_info = data.get("activity")
-        date = datetime.datetime.strptime(activity_info.get("date"), "%Y-%m-%dT%H:%M:%S.%f")
-        type = activity_info.get("type")
-        activity = Activity(type)
-        activity.date = date
-        return activity
-
-    def loadSpecificTournament(self, id):
-        files_path = f"data/tournaments"
-        for file_name in os.listdir(files_path):
-            if file_name.startswith(str(id)):
-                file_path_doc = os.path.join(files_path, file_name)
-        with open(file_path_doc, 'r') as file:
-            tournament_data = json.load(file)
-            tournament_info = tournament_data.get("tournament")
-            Activity("Load Tournament").saveActivity()
-            id = tournament_info.get("id")
-            name = tournament_info.get("name")
-            place = tournament_info.get("place")
-            startDate = datetime.datetime.strptime(tournament_info.get("startDate"), "%Y-%m-%dT%H:%M:%S.%f")
-            if tournament_info.get("endDate") != None:
-                endDate =  datetime.datetime.strptime(tournament_info.get("endDate"), "%Y-%m-%dT%H:%M:%S.%f")
-            else:
-                endDate = None
-            nrRound = tournament_info.get("nrRound")
-            actualRound = tournament_info.get("actualRound")
-            roundList = [self.createRoundFromJson(round_data) for round_data in tournament_info['roundList']]
-            playerList = [(self.createPlayerFromJson(player_data["player"]), player_data["score"]) for player_data in tournament_info['playerList']]
-            description = tournament_info.get("description")
-            tournament = Tournament(name, place, nrRound)
-            tournament.id = id
-            Tournament.id -= 1
-            tournament.startDate = startDate
-            tournament.endDate = endDate
-            tournament.actualRound = actualRound
-            tournament.description = description
-            tournament.playerList = playerList
-            tournament.roundList = roundList
-            
-            return tournament

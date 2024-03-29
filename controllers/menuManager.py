@@ -3,41 +3,45 @@ class MenuManager:
     def __init__(self):
         pass
 
-    def initial(self, view, admin, saverLoader, menuView, rapportView):
+    def initial(self, view, admin, saverLoader, tournamentManager, menuView, rapportView):
         choice=None
         while choice != 9:
             choice = None
-            choice = view.menu()
+            choice = menuView.menu()
             if choice == 1 :
-                choice = view.administration()
+                choice = menuView.administration()
                 if choice == 1 :
                     admin.addmember(view, saverLoader)
                 elif choice == 2 :
                     admin.modifyMember(view, saverLoader)
                 elif choice == 3 :
-                    admin.printMember(view, saverLoader)
+                    admin.printMember(view, saverLoader, rapportView)
                 elif choice == 4 :
-                    admin.printActivity(view, saverLoader)
+                    admin.printActivity(view, saverLoader, rapportView)
                 elif choice == 5 :
                     continue 
             elif choice == 2 :
-                choice = view.tournament()
+                choice = menuView.tournament()
                 if choice == 1 :
-                    pass
+                    tournamentManager.createTournament(view, saverLoader)
                 elif choice == 2 :
-                    pass
+                    tournamentManager.continueTournament(saverLoader, view, rapportView)
                 elif choice == 3 :
-                    pass
+                    tournamentManager.printAllTournament(saverLoader, rapportView)
                 elif choice == 4 :
                     continue 
             elif choice == 3 :
-                choice = view.rapports()
+                choice = menuView.rapports()
                 if choice == 1 :
-                    admin.printMember(view, saverLoader)
+                    admin.printMember(view, saverLoader, rapportView)
                 elif choice == 2 :
-                    pass
+                    tournamentManager.printAllTournament(saverLoader, rapportView)
                 elif choice == 3 :
-                    pass
+                    tournamentManager.printspecifictournament(saverLoader, view, rapportView)
+                elif choice == 4:
+                    tournamentManager.playerListOfASpecificTournament(saverLoader, view, rapportView)    
+                elif choice == 5 :
+                    tournamentManager.matchListOfASpecificTournament(saverLoader, view, rapportView)
                 elif choice == 6 :
                     continue 
                 

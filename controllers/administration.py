@@ -19,7 +19,7 @@ class Admin:
 
     def modifyMember(self, view, saverLoader):
             while True:
-                    #try:
+                    try:
                         nrFFE = view.modifyPlayer1()
                         lastName, firstName, birthName, nrFFE, elo = saverLoader.getPlayerFromJson(nrFFE)
                         element = view.modifyPlayer2(lastName, firstName, birthName, nrFFE, elo)
@@ -44,22 +44,22 @@ class Admin:
                             break
                         else: 
                             break
-                    #except :
+                    except :
                         view.modifyPlayer3()
                         
-    def printMember(self, view, saverLoader):
+    def printMember(self, view, saverLoader, rapportView):
         playerList = saverLoader.loadAllPlayers()
         playerList.sort(key=lambda player: player.firstName)
         playerList.sort(key=lambda player: player.lastName)
         table = [['Nom', 'Prénom', 'Nom de naissance', 'N°FFE', 'Elo']]
         for player in playerList:
             table.append([player.lastName, player.firstName, player.birthName, player.nrFFE, player.elo])
-        view.printMember(table)
+        rapportView.printMember(table)
         
-    def printActivity(self, view, saverLoader):
+    def printActivity(self, view, saverLoader, rapportView):
         activityList = saverLoader.getAllActivity()
         activityList.sort(key=lambda activity: activity.date)
         table = [['Date', 'Activity']]
         for activity in activityList:
             table.append([activity.date, activity.type])
-        view.activityList(table)
+        rapportView.activityList(table)

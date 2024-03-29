@@ -13,7 +13,7 @@ controlleur.run()
 
 
 
-#saverloader = SaverLoader()
+saverloader = SaverLoader()
 
 #eric = Player('BARILLER','Eric', nrFFE="AA")
 #eric2 = Player('BARILLER','Marc', nrFFE="BB")
@@ -27,14 +27,14 @@ controlleur.run()
 #marc6 = Player( 'BARILLER', 'Sophie', nrFFE="JJ")
 #marc7 = Player( 'BARILLER', 'Cassiopée', nrFFE="KK")
 #marc8 = Player('BARILLER', 'Zeus', nrFFE="LL")
+#
 
-
-#tournoi = Tournament('test2', 'StLeger')
+#tournoi = Tournament('Test 3', 'StLeger')
 #tournoi.addPayerList(eric)
 #tournoi.addPayerList(eric2)
 #tournoi.addPayerList(eric3)
 #tournoi.addPayerList(eric4)
-#tournoi.addPayerList(marc)
+##tournoi.addPayerList(marc)
 #tournoi.addPayerList(marc2)
 #tournoi.addPayerList(marc3)
 #tournoi.addPayerList(marc4)
@@ -45,7 +45,7 @@ controlleur.run()
 
 
 
-#for i in range(3):
+#for i in range(25):
 #    tournoi.createRound()
 #    tournoi.roundList[i].playRound()
 #    tournoi.roundList[i].__str__()
@@ -54,7 +54,7 @@ controlleur.run()
 
 #saverloader.saveTournament(tournoi)
 
-#tournoi2 = saverloader.loadTournament(f"data/tournaments/1-test2-Date--2024-03-24.json")
+#tournoi2 = saverloader.loadSpecificTournament('1')
 
 #print(tournoi2.__str__())
 #print(tournoi2.getName())
@@ -71,7 +71,7 @@ controlleur.run()
  #   tournoi2.roundList[len(tournoi2.roundList)-1].playRound()
 #    tournoi2.roundList[len(tournoi2.roundList)-1].__str__()
 #    tournoi2.updateScores()
-
+#tournoi2.setEndDate()
 #saverloader.updateTournament(tournoi2)
 
 

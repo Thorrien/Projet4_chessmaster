@@ -41,47 +41,7 @@ class View:
         print(f'Matchs joués : {matchId}        ')   
         print(f'Nombre de joueurs du cub : {totalClubPlayer}        ')
         print('--------------------------------------------------------------------')
-        
-    def menu(self):
-        print('\n\n--------------------------------------------------------------------')
-        print('---------------------Que souhaitez vous faire ?---------------------')
-        print('1 - Administrer le club et ses membres')
-        print('2 - Gerer ou creer un tournoi')
-        print('3 - Gérérer des rapports')
-        print("9 - Quitter le programme")
-        choice = None
-        while choice not in ['1', '2', '3', '9']:
-            choice = input('Votre choix : ')
-        return int(choice)
-    
-    def administration(self):
-        print('--------------------------------------------------------------------')
-        print('-----------------Administrer le club et ses membres-----------------')
-        print('---------------------Que souhaitez vous faire ?---------------------')
-        print('1 - Ajouter un membre')
-        print("2 - Modifier les données d'un membre")
-        print('3 - Afficher la liste des membres')
-        print("4 - Afficher l'historique des activités du club")
-        print("5 - Menu précédent")
-        print("9 - Quitter le programme")
-        choice = None
-        while choice not in ['1', '2', '3', '4', '5', '9']:
-            choice = input('Votre choix : ')
-        return int(choice)
-    
-    def tournament(self):
-        print('--------------------------------------------------------------------')
-        print('----------------------Gerer ou creer un tournoi---------------------')
-        print('---------------------Que souhaitez vous faire ?---------------------')
-        print('1 - Creer un nouveau tournoi')
-        print("2 - Reprendre un tournoi existant")
-        print("3 - Afficher l'historique des tournois")
-        print("4 - Menu précédent")
-        print("9 - Quitter le programme")
-        choice = None
-        while choice not in ['1', '2', '3', '4', '9']:
-            choice = input('Votre choix : ')
-        return int(choice)
+
     
     def addmember(self):
         choice = None
@@ -149,30 +109,37 @@ class View:
         data = input(' Votre saisie : ')
         return data
     
-    def printMember(self, table):
+    def startTournament(self):
         print('\n\n--------------------------------------------------------------------')
-        print("------------------Liste des joueurs du club-------------------------")
-        print('--------------------------------------------------------------------')
-        print(tabulate(table, headers="firstrow"))
+        print("--------------------Création d'un tournoi---------------------------")
 
-    def activityList(self, table):
-        print('\n\n--------------------------------------------------------------------')
-        print("------------------Liste des joueurs du club-------------------------")
-        print('--------------------------------------------------------------------')
-        print(tabulate(table, headers="firstrow"))
-
-    def rapports(self):
-        print('--------------------------------------------------------------------')
-        print('-------------------------Génerer un rapport-------------------------')
-        print('----------------Quel rapport souhaitez vous générer ?---------------')
-        print('1 - Liste de tous les joueurs par ordre alphabétique')
-        print("2 - Liste de tous les tournois")
-        print("3 - Informations d'un tournoi donné")
-        print("4 - Liste des joueurs du tournoi par ordre alphabétique")
-        print("5 - Liste de tous les tours du tournoi et de tous les matchs du tour")
-        print('6 - Menu précédent')        
-        print("9 - Quitter le programme")
+        
+        
+        
+    def  createTournament(self):
         choice = None
-        while choice not in ['1', '2', '3', '4', '5', '6', '9']:
-            choice = input('Votre choix : ')
-        return int(choice)
+        while choice not in ['Quitter' or 'Oui']:
+            print('--------------------------------------------------------------------\n')
+            name = input('[Obligatoire] Nom du tournoi : ')
+            place = input('[Obligatoire] Lieu du tournoi : ')
+            description = input('[Facultatif] Courte description : ')
+              
+            print("\n\nVous confirmez l'enregistrement du joueur suivant dans la liste du club :")
+            print(f'Nom du tournoi : {name}')
+            print(f'Lieu du tournoi : {place}')
+            print(f'Description : {description}')
+            
+            while choice not in ['Oui', 'Non', 'Quitter']:
+                choice = input("'Oui' / 'Non' / 'Quitter' : ")
+        
+            if choice == 'Oui':
+                return name, place, description 
+      
+            
+    def tournamentChoice(self, idList):
+        print("\n\n Quel est l'id du tournoi que vous souhaitez continuer ?")        
+        choice = None
+        while choice not in idList:
+            choice = int(input('Votre choix : '))
+        return choice
+    
