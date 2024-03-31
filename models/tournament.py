@@ -121,21 +121,30 @@ class Tournament:
             self.classifyPlayers(self.playerList)
         else: 
             self.shufflePlayer()
-        self.printPlayerList()
         self.roundList.append(Round())
         self.roundList[self.actualRound].createMatchList(self.playerList)
         self.actualRound += 1
 
     def updateScores(self):
-        for match in self.roundList[self.actualRound].matchList:
-            if match.duo[0][1] is not None:
-                player1, player2 = match.duo[0][0], match.duo[1][0]
-                for i, (player, score) in enumerate(self.playerList):
-                    if player == player1:
-                        self.playerList[i] = (player, score + match.duo[0][1])
-                    elif player == player2:
-                        self.playerList[i] = (player, score + match.duo[1][1])
-        
+        for match in self.roundList[len(self.roundList)-1].matchList:
+            print( f"{match.duo[0][1]} VS {match.duo[1][1]}")
+            player1, player2 = match.duo[0][0], match.duo[1][0]
+            for i, (player, score) in enumerate(self.playerList):
+                print(player.firstName)
+                if player.nrFFE == player1.nrFFE:
+                    print(player.firstName)
+                    print(player1.firstName)
+                    self.playerList[i] = (player, score + match.duo[0][1])
+                elif player.nrFFE == player2.nrFFE:
+                    print(player.firstName)
+                    print(player2.firstName)
+                    self.playerList[i] = (player, score + match.duo[1][1])
+
+        for player, score in self.playerList:
+            print(f"joueur : {player.firstName} Score : {score}")
+
+
+
     def classifyPlayers(self, playerlist):
         self.playerList = sorted(self.playerList, key=lambda x: x[1], reverse=True)
 

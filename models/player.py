@@ -2,14 +2,14 @@ import json
 
 class Player:
     def __init__(self, lastName, firstName,
-                 birthName="", nrFFE="XXXXXXX", elo=1000):
+                 birthName="", nrFFE="XXXXXXX", elo=1000, lastOpponent='Personne'):
         self.lastName = lastName
         self.firstName = firstName
         self.birthName = birthName
         self.nrFFE = nrFFE
         self.elo = elo
         self.listMatch = []
-
+        self.lastOpponent= lastOpponent
 
 
     def to_dict(self):
@@ -20,6 +20,7 @@ class Player:
                 "firstName": self.firstName,
                 "birthName": self.birthName,
                 "elo": self.elo,
+                "lastOpponent": self.lastOpponent
                 #"listMatch": [match.to_dict() for match in self.listMatch]
             }
         }
@@ -58,9 +59,4 @@ class Player:
     def setelo(self, newElo):
         self.elo = newElo
 
-    def getListMatch(self):
-        #self.listMatch = sorted(self.listMatch, key=lambda x: x.date, reverse=True)
-        print(f"-----------------Liste des matchs joués par {self.lastName} {self.firstName}-----------------------\n")
-        for match in self.listMatch:
-            match.__str__()
 

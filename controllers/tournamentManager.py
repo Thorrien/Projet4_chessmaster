@@ -11,6 +11,7 @@ class TournamentManager:
         tournament.description = description
         print('Tournoi créé !')
         saverLoader.saveTournament(tournament)
+        saverLoader.saveData()
             
             
     def printAllTournament(self, saverLoader, rapportView):
@@ -45,7 +46,7 @@ class TournamentManager:
                 etat = 'En cours'
                 table.append([tournament.startDate, tournament.id, tournament.name, etat, f'{tournament.actualRound} / {tournament.nrRound}', len(tournament.playerList)])
                 idList.append(tournament.id)
-        rapportView.tournamentsList(table)
+        rapportView.tournamentsACList(table)
         return idList
 
     def continueTournament(self, saverLoader, view, rapportView):
@@ -161,4 +162,76 @@ class TournamentManager:
         
     def runNextTournament(self, saverLoader, tournament):
         tournament.createRound()
+        saverLoader.updateTournament(tournament)
+        saverLoader.saveData()
+
+    def addScores(self, saverLoader, view, rapportView, menuView, tournament):
+        table4 = [["Tour", "Id ", "Joueur 1", "Joueur 2", "Score"]]
+        for match in tournament.roundList[len(tournament.roundList)-1].matchList:
+            scores= ' '
+            if match.duo[0][1] == None:
+                scores = 'Non renseigné'
+            else: 
+                scores = f"{match.duo[0][1]}/{match.duo[1][1]}"
+            table4.append([tournament.roundList[len(tournament.roundList)-1].name, match.id, f"{match.duo[0][0].nrFFE} : {match.duo[0][0].lastName}  {match.duo[0][0].firstName} ({match.duo[0][0].elo})", f"{match.duo[1][0].nrFFE} : {match.duo[1][0].lastName}  {match.duo[1][0].firstName} ({match.duo[1][0].elo})", scores])
+        rapportView.printActualRound(table4, tournament)
+        choice = menuView.scoresTypeIntegration(tournament)
+        return choice
+
+    def printPlayerScores(self, rapportView, tournament):
+        table = [['Nom', 'Prénom', 'score', 'Nom de naissance', 'N°FFE', 'Elo']]
+        tournament.playerList.sort(key=lambda player: player[0].firstName)
+        tournament.playerList.sort(key=lambda player: player[0].lastName)
+        tournament.playerList.sort(key=lambda player: player[1], reverse=True)
+        for player, score in tournament.playerList:
+            table.append([player.lastName, player.firstName, score, player.birthName, player.nrFFE, player.elo])
+        rapportView.printPlayerScores(table, tournament)
+
+    def playMatchRandom(self, saverLoader, tournament):
+        for match in tournament.roundList[len(tournament.roundList)-1].matchList:
+            match.jouerMatch()
+            saverLoader.updateTournament(tournament)
+            
+    def endARound(self, view, saverLoader, tournament):
+        validation = True
+        for match in tournament.roundList[len(tournament.roundList)-1].matchList:
+            if match.duo[0][1] == None:
+                validation = False    
+        if validation == True :
+            tournament.roundList[len(tournament.roundList)-1].endRound()
+            tournament.updateScores()
+            saverLoader.updateTournament(tournament)
+            saverLoader.saveData()
+            return True
+        else : 
+            view.blockvalidation()
+            
+    def endTournament(self, saverLoader, tournament):
+        tournament.setEndDate()
+        saverLoader.updateTournament(tournament)
+        
+    def postScores(self, saverLoader, view, rapportView, tournament):
+        table4 = [["Tour", "Id ", "Joueur 1", "Joueur 2", "Score"]]
+        nrRoundList= []
+        for match in tournament.roundList[len(tournament.roundList)-1].matchList:
+            scores= ' '
+            nrRoundList.append(match.id)    
+            if match.duo[0][1] == None:
+                scores = 'Non renseigné'
+            else: 
+                scores = f"{match.duo[0][1]}/{match.duo[1][1]}"
+            table4.append([tournament.roundList[len(tournament.roundList)-1].name, match.id, f"{match.duo[0][0].nrFFE} : {match.duo[0][0].lastName}  {match.duo[0][0].firstName} ({match.duo[0][0].elo})", f"{match.duo[1][0].nrFFE} : {match.duo[1][0].lastName}  {match.duo[1][0].firstName} ({match.duo[1][0].elo})", scores])
+        rapportView.printActualRound(table4, tournament)
+        idMatch, player1Score = view.scoresIntegration(tournament, nrRoundList)
+        for match in tournament.roundList[len(tournament.roundList)-1].matchList:
+            if match.id == idMatch: 
+                if player1Score == ('P'):
+                    match.duo[0][1]=0
+                    match.duo[1][1]=1
+                if player1Score == ('G'):
+                    match.duo[0][1]=1
+                    match.duo[1][1]=0
+                if player1Score == ('E'):
+                    match.duo[0][1]=0.5
+                    match.duo[1][1]=0.5
         saverLoader.updateTournament(tournament)

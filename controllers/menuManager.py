@@ -31,12 +31,12 @@ class MenuManager:
                                 tournament, choice = tournamentManager.manageTournament(saverLoader, view, rapportView, menuView, choice1)
                                 if choice == 1 :
                                     tournamentManager.modifyTournament(saverLoader, view, rapportView, tournament)
-                                if choice == 2 : 
+                                elif choice == 2 : 
                                     if tournament.actualRound != 0:
                                         view.blockAddPlayer()
                                     else :   
                                         tournamentManager.addPlayerTournament(saverLoader, view, rapportView, tournament)
-                                if choice == 3 :
+                                elif choice == 3 :
                                     if tournament.actualRound == 0:
                                         if view.confirmation(tournament):
                                             tournamentManager.runNextTournament(saverLoader, tournament)
@@ -47,9 +47,33 @@ class MenuManager:
                                             tournamentManager.runNextTournament(saverLoader, tournament)
                                         else:
                                             view.actualRoundNotFinished()
-                                if choice == 4 :
-                                    pass #Entrer des scores
-                                if choice == 5 :
+                                elif choice == 4 :
+                                    if tournament.actualRound == 0 or tournament.roundList[tournament.actualRound-1].endDate != None:
+                                        view.blockscores()
+                                    else: 
+                                        scores = True
+                                        while scores == True:
+                                            choice = tournamentManager.addScores(saverLoader, view, rapportView, menuView, tournament)    
+                                            if choice == 1:
+                                                tournamentManager.postScores(saverLoader, view, rapportView, tournament)
+                                            elif choice == 2: 
+                                                save = tournamentManager.endARound(view, saverLoader, tournament)
+                                                if save == True:
+                                                    if tournament.actualRound == tournament.nrRound :
+                                                        tournamentManager.endTournament(saverLoader, tournament)
+                                                    scores = False                                                
+                                            elif choice == 3: 
+                                                tournamentManager.playMatchRandom(saverLoader,tournament)
+                                            elif choice == 4 :
+                                                scores = False
+                                            elif choice == 9 :
+                                                scores = False
+                                                manage = False
+                                elif choice == 5 :
+                                    tournamentManager.printPlayerScores(rapportView, tournament)
+                                elif choice == 6 :
+                                    manage = False
+                                elif choice == 9 :
                                     manage = False
                     elif choice == 3 :
                         tournamentManager.printAllTournament(saverLoader, rapportView)

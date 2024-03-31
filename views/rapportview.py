@@ -10,14 +10,23 @@ class RapportView:
         print("------------------Liste des joueurs du club-------------------------")
         print('--------------------------------------------------------------------')
         print(tabulate(table, headers="firstrow"))
+        input("\nAppuyez sur Entrée pour continuer...")
 
     def activityList(self, table):
         print('\n\n--------------------------------------------------------------------')
-        print("------------------Liste des joueurs du club-------------------------")
+        print("------------------Liste des activités du club-------------------------")
         print('--------------------------------------------------------------------')
         print(tabulate(table, headers="firstrow"))
+        input("\nAppuyez sur Entrée pour continuer...")
 
     def tournamentsList(self, table):
+        print('\n\n--------------------------------------------------------------------')
+        print("-------------------Historique des tournois--------------------------")
+        print('--------------------------------------------------------------------')
+        print(tabulate(table, headers="firstrow"))
+        input("\nAppuyez sur Entrée pour continuer...")
+        
+    def tournamentsACList(self, table):
         print('\n\n--------------------------------------------------------------------')
         print("-------------------Historique des tournois--------------------------")
         print('--------------------------------------------------------------------')
@@ -47,12 +56,14 @@ class RapportView:
                 for table in tables:
                     print("\n\n")
                     print(tabulate(table, headers="firstrow"))
+            input("\nAppuyez sur Entrée pour continuer...")
             choice = 'Non'
             
     def printPlayerListTournament(self, table2, tournament):
         print('\n\n--------------------------------------------------------------------')
         print(f"\n          Liste des joueurs du tournoi : {tournament.name}          \n")
         print(tabulate(table2, headers="firstrow"))
+        input("\nAppuyez sur Entrée pour continuer...")
             
     def printMatchListTournament(self, tables, tournament):
         print('\n\n--------------------------------------------------------------------')
@@ -60,6 +71,7 @@ class RapportView:
         for table in tables:
             print("\n\n")
             print(tabulate(table, headers="firstrow"))
+        input("\nAppuyez sur Entrée pour continuer...")
             
             
     def driveTournament(self, tournament):
@@ -97,3 +109,16 @@ class RapportView:
         while nrFFE not in FFEList:
                 nrFFE = input("\nQuand tous les joueurs sont ajoutés notez 'Terminé'\nQuel est le N° FFE du joueur à ajouter : ")
         return nrFFE
+    
+    
+    def printActualRound(self, table, tournament):
+        print('\n\n--------------------------------------------------------------------')
+        print(f"              {tournament.roundList[len(tournament.roundList)-1].name} du tournoi : {tournament.name} \n")
+        print(f"               Liste des matchs du tour\n")
+        print("\n")
+        print(tabulate(table, headers="firstrow"))
+        
+    def printPlayerScores(self, table, tournament):
+        print(f"  Liste des scores du tour pour le tournoi : {tournament.name} \n")
+        print(tabulate(table, headers="firstrow"))
+        input("\nAppuyez sur Entrée pour continuer...")

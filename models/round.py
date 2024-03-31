@@ -8,7 +8,7 @@ class Round:
     def __init__(self):
         Round.id += 1
         self.id = Round.id
-        self.name = f'Round {self.id}'
+        self.name = f'Tour {self.id}'
         self.matchList = []
         self.startDate = datetime.datetime.today()
         self.endDate = None
@@ -48,30 +48,25 @@ class Round:
         couples = len(playerlist)/2
         newPlayerList = []
         groups = {}
-        
         for element in playerlist:
             score = element[1]
             if score not in groups:
                 groups[score] = []
             groups[score].append(element)
-        
         for group in groups.values():
-            #print("avant mélange")
-            #for element in group:
-            #    print(element[0].firstName)
+            print("avant mélange")
+            for element in group:
+                print(element[0].firstName)
             random.shuffle(group)
-            #print("après mélange")
-            #for element in group:
-            #    print(element[0].firstName)
-        
+            print("après mélange")
+            for element in group:
+                print(element[0].firstName)
         playerlist =[]
         for group in groups.values():
             playerlist.extend(group)
-        
-        
         for x in range(int(couples)):
-            if len(playerlist[0][0].listMatch) != 0:
-                if playerlist[0][0].listMatch[len(playerlist[0][0].listMatch)-1].duo[0][0] == playerlist[1][0] or playerlist[0][0].listMatch[len(playerlist[0][0].listMatch)-1].duo[1][0] == playerlist[1][0]:
+            if playerlist[0][0].lastOpponent != 'Personne':
+                if playerlist[0][0].lastOpponent == playerlist[1][0].nrFFE or playerlist[0][0].lastOpponent == playerlist[1][0].nrFFE:
                     if len(playerlist) == 2:
                         print(f"XXXXXXXXXXXXXXXXXXXXXxxxxxxxxxxxx{playerlist[0][0].firstName}xxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXX Seconde rencontre inévitable xxxxxxxxxxxxxxxxxxxx{playerlist[1][0].firstName}xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
                         newPlayerList.append(playerlist[0])
@@ -99,6 +94,11 @@ class Round:
             
         for player in newPlayerList:
             playerlist.append(player)
+            
+        for match in self.matchList: 
+            match.duo[0][0].lastOpponent = match.duo[1][0].nrFFE
+            match.duo[1][0].lastOpponent = match.duo[0][0].nrFFE
+            
 
 
     def printListMatch(self):

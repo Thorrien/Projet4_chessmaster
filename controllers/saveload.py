@@ -22,7 +22,6 @@ class SaverLoader :
                     "tournamentId": Tournament.id,
                     "roundId": Round.id,
                     "matchId": Match.id,
-                    "activity": Activity.id
                     }
                 }
         file_path = f"data/data/data.json"
@@ -50,7 +49,7 @@ class SaverLoader :
         player_exists = False
         for existing_player in players_data:
             if existing_player["player"]["nrFFE"] == player_dict["player"]["nrFFE"]:
-                print(f'update du joueur {existing_player["player"]["nrFFE"]}')
+                #print(f'update du joueur {existing_player["player"]["nrFFE"]}')
                 self.updatePlayer(existing_player)
                 player_exists = True
                 break
@@ -72,7 +71,7 @@ class SaverLoader :
         player_dict = player.to_dict()
         for existing_player in players_data:
             if existing_player["player"]["nrFFE"] == player_dict["player"]["nrFFE"]:
-                print(f'update du joueur {existing_player["player"]["nrFFE"]}')
+                #print(f'update du joueur {existing_player["player"]["nrFFE"]}')
                 return True
 
 
@@ -86,6 +85,7 @@ class SaverLoader :
                 player_data["player"]["firstName"] = player.firstName
                 player_data["player"]["birthName"] = player.birthName
                 player_data["player"]["elo"] = player.elo
+                player_data["player"]["lastOpponent"] = player.lastOpponent
                 break
 
         with open("data/players/playerList.json", 'w') as file:
@@ -112,9 +112,10 @@ class SaverLoader :
                 firstName = player_data["player"]["firstName"]
                 birthName = player_data["player"]["birthName"]
                 elo = player_data["player"]["elo"]
+                lastOpponent = player_data["player"]["lastOpponent"]
                 break
         Activity("Get specific Player").saveActivity()
-        return Player(lastName, firstName, birthName, nrFFE, elo)
+        return Player(lastName, firstName, birthName, nrFFE, elo, lastOpponent)
 
     def createPlayerFromJson(self, data):
         player_info = data.get("player")
@@ -123,7 +124,8 @@ class SaverLoader :
         birthName = player_info.get("birthName", "")
         nrFFE = player_info.get("nrFFE")
         elo = player_info.get("elo")
-        return Player(lastName, firstName, birthName, nrFFE, elo)
+        lastOpponent = player_info.get("lastOpponent")
+        return Player(lastName, firstName, birthName, nrFFE, elo, lastOpponent)
 
     def createRoundFromJson(self, data):
         round_info = data.get("round")
@@ -196,7 +198,6 @@ class SaverLoader :
         for file_name in os.listdir(files_path):
             file_path = os.path.join(files_path, file_name)
             if os.path.isfile(file_path):
-                print(file_path)  
                 tournaments.append(self.loadTournament(file_path))
         Activity("Read Tournament").saveActivity()
         return tournaments

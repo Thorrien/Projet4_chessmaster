@@ -69,10 +69,23 @@ class MenuView:
         print('1 - Modifier les informations')
         print("2 - Ajouter des joueurs")
         print("3 - Lancer le tour suivant")
-        print("4 - Entrer des scores")
-        print("5 - Menu principal")
+        print("4 - Entrer des scores du tour en cours")
+        print("5 - Voir les scores globaux")
+        print("6 - Menu principal")
         print("9 - Quitter le programme")
         choice = None
-        while choice not in ['1', '2', '3', '4', '5', '9']:
+        while choice not in ['1', '2', '3', '4', '5', '6', '9']:
+            choice = input('Votre choix : ')
+        return int(choice)
+    
+    def scoresTypeIntegration(self, tournament):
+        print('\n---------------------Que souhaitez vous faire ?---------------------')
+        print('1 - Entrer un score')
+        print("2 - Terminer le tour")
+        print("3 - Jouer aléatoirement les matchs")
+        print("4 - Menu précédent")
+        print("9 - Quitter le programme")
+        choice = None
+        while choice not in ['1', '2', '3', '4', '9']:
             choice = input('Votre choix : ')
         return int(choice)

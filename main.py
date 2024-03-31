@@ -1,19 +1,16 @@
-from models.player import Player
-from models.tournament import Tournament
-from models.round import Round
-from models.match import Match
-from controllers.saveload import SaverLoader
 from controllers.centralcontrol import CentralControl
 
-controlleur = CentralControl()
-controlleur.run()
+def main():
+    controller = CentralControl()
+    controller.run()
+
+if __name__ == "__main__":
+    main()
 
 
 
-
-
-
-saverloader = SaverLoader()
+#saverloader = SaverLoader()
+#tournamentManager = TournamentManager()#
 
 #eric = Player('BARILLER','Eric', nrFFE="AA")
 #eric2 = Player('BARILLER','Marc', nrFFE="BB")
@@ -31,11 +28,11 @@ saverloader = SaverLoader()
 
 
 #tournoi = Tournament('Test 3', 'StLeger')
-#tournoi.addPayerList(eric)
+#tournoi.addPayerList(eric)#
 #tournoi.addPayerList(eric2)
 #tournoi.addPayerList(eric3)
 #tournoi.addPayerList(eric4)
-##tournoi.addPayerList(marc)
+#tournoi.addPayerList(marc)
 #tournoi.addPayerList(marc2)
 #tournoi.addPayerList(marc3)
 #tournoi.addPayerList(marc4)
@@ -46,13 +43,15 @@ saverloader = SaverLoader()
 
 
 
-#for i in range(25):
+#for i in range(5):
 #    tournoi.createRound()
+#    tournoi.printPlayerList()
 #    tournoi.roundList[i].playRound()
 #    tournoi.roundList[i].__str__()
 #    tournoi.updateScores()
 
-
+#for player, score in tournoi.playerList:
+#    saverloader.updatePlayer(player)
 #saverloader.saveTournament(tournoi)
 
 #tournoi2 = saverloader.loadSpecificTournament('1')
@@ -70,7 +69,8 @@ saverloader = SaverLoader()
     
  #   tournoi2.createRound()   
  #   tournoi2.roundList[len(tournoi2.roundList)-1].playRound()
-#    tournoi2.roundList[len(tournoi2.roundList)-1].__str__()
+#    tournoi2.roundList[len(tournoi2.roundList)-1].__str__()1
+
 #    tournoi2.updateScores()
 #tournoi2.setEndDate()
 #saverloader.updateTournament(tournoi2)

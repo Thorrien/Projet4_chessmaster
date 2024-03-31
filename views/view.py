@@ -124,11 +124,22 @@ class View:
             name = input('[Obligatoire] Nom du tournoi : ')
             place = input('[Obligatoire] Lieu du tournoi : ')
             description = input('[Facultatif] Courte description : ')
-              
-            print("\n\nVous confirmez l'enregistrement du joueur suivant dans la liste du club :")
+            nrRound = 4 
+            while True:
+                try:
+                    user_input = input("[Facultatif] Nombre de tours (Par défaut 4): ").strip()
+                    if user_input == "":  
+                        break  
+                    nrRound = int(user_input)
+                    break  
+                except ValueError:
+                    print("Veuillez entrer un nombre valide.")
+            
+            print("\n\nVous confirmez l'enregistrement du tournoi suivant :")
             print(f'Nom du tournoi : {name}')
             print(f'Lieu du tournoi : {place}')
             print(f'Description : {description}')
+            print(f'Nombre de tours : {nrRound}')
             
             while choice not in ['Oui', 'Non', 'Quitter']:
                 choice = input("'Oui' / 'Non' / 'Quitter' : ")
@@ -177,3 +188,22 @@ class View:
     def actualRoundNotFinished(self):
         print("\n\n Tour actuel n'est pas terminé, Merci d'entrer les scores.")
         input("Appuyez sur Entrée pour continuer...")
+
+
+    def blockscores(self):
+        print("\n\nEnregistrement impossible : pas de tour en cours")
+        input("Appuyez sur Entrée pour continuer...")
+        
+    def blockvalidation(self):
+        print("\n\nImpossible de terminer le tour, tous les scores n'ont pas été intégrés")
+        input("Appuyez sur Entrée pour continuer...")
+        
+    def scoresIntegration(self, tournament, nrRoundList):
+        idMatch = None
+        player1Score = None
+        while idMatch not in nrRoundList:
+            idMatch = int(input('\nId de match :'))
+            print("\nQuel est le résultat pour le joueur 1 ?")
+        while player1Score not in ['P', 'G', 'E']:
+            player1Score = input("A t'il gagné =>(G), perdu=>(P) ou égalité=>(E) : ")
+        return idMatch, player1Score

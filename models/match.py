@@ -37,8 +37,6 @@ class Match:
             #print("Egalité")
             self.duo[0][1]=0.5
             self.duo[1][1]=0.5
-        self.duo[0][0].listMatch.append(self)
-        self.duo[1][0].listMatch.append(self)
             
     def getScores(self):
         print(f"Joueur 1 a un score de {self.duo[0][1]}")
