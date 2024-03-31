@@ -21,24 +21,20 @@ class Admin:
             while True:
                     try:
                         nrFFE = view.modifyPlayer1()
-                        lastName, firstName, birthName, nrFFE, elo = saverLoader.getPlayerFromJson(nrFFE)
-                        element = view.modifyPlayer2(lastName, firstName, birthName, nrFFE, elo)
+                        player = saverLoader.getPlayerFromJson(nrFFE)
+                        element = view.modifyPlayer2(player)
                         if element != '6':
                             data = view.modifyPlayer4()
                             if element == '1':
-                                lastName = data
+                                player.lastName = data
                             elif element == '2':
-                                firstName = data
+                                player.firstName = data
                             elif element == '3':
-                                birthName = data
+                                player.birthName = data
                             elif element == '4':
                                 pass
                             elif element == '5':
-                                elo = data
-                            player = Player(lastName, firstName)
-                            player.birthName = birthName
-                            player.nrFFE = nrFFE
-                            player.elo = elo
+                                player.elo = data
                             print(f"{player.firstName}, {player.lastName}, {player.birthName}, {player.nrFFE}, {player.elo}")
                             saverLoader.updatePlayer(player)
                             break

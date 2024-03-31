@@ -86,13 +86,13 @@ class View:
         nrFfe = input('N°FFE : ')
         return nrFfe
 
-    def modifyPlayer2(self, lastName, firstName, birthName, nrFFE, elo):
+    def modifyPlayer2(self, player):
             print("\n\n Quel est L'information à modifier :")
-            print(f'1 - Nom de famille :    {lastName}')
-            print(f'2 - Prénom :            {firstName}')
-            print(f'3 - Nom de naissance :  {birthName}')
-            print(f'4 - Numéro FFE :        {nrFFE}')
-            print(f'5 - Elo :               {elo}')
+            print(f'1 - Nom de famille :    {player.lastName}')
+            print(f'2 - Prénom :            {player.firstName}')
+            print(f'3 - Nom de naissance :  {player.birthName}')
+            print(f'4 - Numéro FFE :        {player.nrFFE}')
+            print(f'5 - Elo :               {player.elo}')
             print(f'6 - Aucune')
             choice = None
             while choice not in ['1', '2', '3', '4', '5', '6']:
@@ -113,8 +113,9 @@ class View:
         print('\n\n--------------------------------------------------------------------')
         print("--------------------Création d'un tournoi---------------------------")
 
-        
-        
+    def addPlayerAlreadyPresent(self):
+        print("Joueur déjà présent dans le tournoi !" )
+        input("Appuyez sur Entrée pour continuer...")
         
     def  createTournament(self):
         choice = None
@@ -134,12 +135,45 @@ class View:
         
             if choice == 'Oui':
                 return name, place, description 
-      
+    def confirmation(self, tournament):
+        choice = None
+        while choice not in ['Oui', 'Non']:
+            print("\n\nATTENTION : Le lancement du tournoi bloquera l'ajout de joueurs.")
+            choice = input("Avez vous associé tous les joueurs ? 'Oui' / 'Non' : ")
+        if choice == 'Oui':
+            return True
+        else:
+            return False
             
     def tournamentChoice(self, idList):
-        print("\n\n Quel est l'id du tournoi que vous souhaitez continuer ?")        
+        print("\n\n Quel est l'id du tournoi que vous souhaitez continuer ? ")        
         choice = None
         while choice not in idList:
             choice = int(input('Votre choix : '))
         return choice
     
+    def modifyTournament(self, tournament):
+        print("\n\n Quel est L'information à modifier :")
+        print(f'1 - Nom du tournoi :    {tournament.name}')
+        print(f'2 - Place :             {tournament.place}')
+        print(f'3 - Descritpion :       {tournament.description}')
+        print(f'6 - Aucune')
+        choice = None
+        data = None
+        while choice not in ['1', '2', '3', '6']:
+            choice = input('Votre choix : ')
+        if choice != '6':
+            data = input("quelle est la valeur à modifier?")
+        return data, choice
+    
+    def blockAddPlayer(self):
+        print("\n\n Ajout de joueur impossible, le tournoi a commencé")      
+        input("Appuyez sur Entrée pour continuer...")
+        
+    def maxRound(self):
+        print("\n\n Nombre de tours max atteint.")      
+        input("Appuyez sur Entrée pour continuer...")
+        
+    def actualRoundNotFinished(self):
+        print("\n\n Tour actuel n'est pas terminé, Merci d'entrer les scores.")
+        input("Appuyez sur Entrée pour continuer...")

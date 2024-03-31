@@ -51,6 +51,9 @@ class TournamentManager:
     def continueTournament(self, saverLoader, view, rapportView):
         idList = self.printActivesTournament(saverLoader, rapportView)
         choice = view.tournamentChoice(idList)
+        return choice
+    
+    def manageTournament(self,saverLoader, view, rapportView, menuView, choice):
         tournament = saverLoader.loadSpecificTournament(choice)
         table = [[ 'id', 'Nom du tournoi', 'Date', 'tours']]
         table.append([tournament.id, tournament.name, tournament.startDate, f'{tournament.actualRound} / {tournament.nrRound}'])
@@ -59,7 +62,52 @@ class TournamentManager:
         tournament.playerList.sort(key=lambda player: player[0].lastName)
         for player in tournament.playerList:
             table2.append([player[0].lastName, player[0].firstName, player[1], player[0].birthName, player[0].nrFFE, player[0].elo])
-        rapportView.printTournament(table, table2, tournament)
+        rapportView.driveTournament(tournament)
+        choice = menuView.choiceDriveTournament(tournament)
+        return tournament, choice
+        
+    def modifyTournament(self, saverLoader, view, rapportView, tournament):
+        data, choice = view.modifyTournament(tournament)
+        if data is not None or choice != '6':
+            if choice == '1':
+                tournament.name = data
+            if choice == '2':
+                tournament.place = data
+            if choice == '3':
+                tournament.description = data
+        saverLoader.updateTournament(tournament)
+        
+    def addPlayerTournament(self, saverLoader, view, rapportView, tournament):
+        nrFFE = None
+        while nrFFE != 'Terminé':
+            table = [['N°FFE', 'Nom', 'Prénom', 'Nom de naissance', 'Elo']]
+            playerList = saverLoader.loadAllPlayers()
+            playerList.sort(key=lambda player: player.firstName)
+            playerList.sort(key=lambda player: player.lastName)     
+            FFEList = ['Terminé']
+            FFEList2 = []
+            for player in playerList:
+                FFEList.append(player.nrFFE)
+                table.append([player.nrFFE, player.lastName, player.firstName, player.birthName, player.elo])
+            table2 = [['Nom', 'Prénom', 'score', 'Nom de naissance', 'N°FFE', 'Elo']]
+            if len(tournament.playerList) != 0:
+                tournament.playerList.sort(key=lambda player: player[0].firstName)
+                tournament.playerList.sort(key=lambda player: player[0].lastName)
+                for player in tournament.playerList:
+                    FFEList2.append(player[0].nrFFE)
+                    table2.append([player[0].lastName, player[0].firstName, player[1], player[0].birthName, player[0].nrFFE, player[0].elo])
+            nrFFE = None
+            nrFFE = rapportView.addPlayer(table, table2, tournament, FFEList)
+            if nrFFE != 'Terminé': 
+                playeradded = saverLoader.getPlayerFromJson(nrFFE)
+                if nrFFE in FFEList2:
+                    view.addPlayerAlreadyPresent()
+                else :
+                    tournament.addPayerList(playeradded)
+                    saverLoader.updateTournament(tournament)
+            else: 
+                nrFFE = 'Terminé'
+            
 
     def printspecifictournament(self, saverLoader, view, rapportView):
         idList = self.printAllTournament(saverLoader, rapportView)
@@ -110,3 +158,7 @@ class TournamentManager:
                 table4.append([round.name, match.id, f"{match.duo[0][0].nrFFE} : {match.duo[0][0].lastName}  {match.duo[0][0].firstName} ({match.duo[0][0].elo})", f"{match.duo[1][0].nrFFE} : {match.duo[1][0].lastName}  {match.duo[1][0].firstName} ({match.duo[1][0].elo})", f"{match.duo[0][1]}/{match.duo[1][1]}"])
             tables.append(table4)
         rapportView.printMatchListTournament(tables, tournament)
+        
+    def runNextTournament(self, saverLoader, tournament):
+        tournament.createRound()
+        saverLoader.updateTournament(tournament)

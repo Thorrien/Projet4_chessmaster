@@ -27,7 +27,8 @@ saverloader = SaverLoader()
 #marc6 = Player( 'BARILLER', 'Sophie', nrFFE="JJ")
 #marc7 = Player( 'BARILLER', 'Cassiopée', nrFFE="KK")
 #marc8 = Player('BARILLER', 'Zeus', nrFFE="LL")
-#
+#2
+
 
 #tournoi = Tournament('Test 3', 'StLeger')
 #tournoi.addPayerList(eric)

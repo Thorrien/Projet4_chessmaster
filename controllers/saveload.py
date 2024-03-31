@@ -114,7 +114,7 @@ class SaverLoader :
                 elo = player_data["player"]["elo"]
                 break
         Activity("Get specific Player").saveActivity()
-        return lastName, firstName, birthName, nrFFE, elo
+        return Player(lastName, firstName, birthName, nrFFE, elo)
 
     def createPlayerFromJson(self, data):
         player_info = data.get("player")
@@ -173,7 +173,7 @@ class SaverLoader :
         files_path = f"data/tournaments"
         Activity("Update Tournament").saveActivity()
         for file_name in os.listdir(files_path):
-            if file_name.startswith(f'{tournament.id}-{tournament.name}-Date'):
+            if file_name.startswith(f'{tournament.id}-'):
                 file_path = os.path.join(files_path, file_name)
                 tournamentData = tournament.to_dict()
                 with open(file_path, 'w') as file:
