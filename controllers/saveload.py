@@ -3,19 +3,16 @@ from models.round import Round
 from models.match import Match
 from models.activity import Activity
 from models.tournament import Tournament
-from models.activity import Activity
 import json
 import os
 import datetime
 
 
+class SaverLoader:
 
-class SaverLoader :
-    
     def __init__(self):
         pass
-    
-    
+
     def saveData(self):
         data = {
                 "data": {
@@ -24,11 +21,11 @@ class SaverLoader :
                     "matchId": Match.id,
                     }
                 }
-        file_path = f"data/data/data.json"
+        file_path = "data/data/data.json"
         with open(file_path, 'w') as file:
             json.dump(data, file)
         print("Fichier JSON créé avec succès.")
-    
+
     def loadData(self):
         with open("data/data/data.json", 'r') as file:
             datas = json.load(file)
@@ -49,7 +46,6 @@ class SaverLoader :
         player_exists = False
         for existing_player in players_data:
             if existing_player["player"]["nrFFE"] == player_dict["player"]["nrFFE"]:
-                #print(f'update du joueur {existing_player["player"]["nrFFE"]}')
                 self.updatePlayer(existing_player)
                 player_exists = True
                 break
@@ -71,9 +67,7 @@ class SaverLoader :
         player_dict = player.to_dict()
         for existing_player in players_data:
             if existing_player["player"]["nrFFE"] == player_dict["player"]["nrFFE"]:
-                #print(f'update du joueur {existing_player["player"]["nrFFE"]}')
                 return True
-
 
     def updatePlayer(self, player):
         with open("data/players/playerList.json", 'r') as file:
@@ -101,7 +95,6 @@ class SaverLoader :
                 player = self.createPlayerFromJson(player_data)
                 listOfPlayers.append(player)
             return listOfPlayers
-
 
     def getPlayerFromJson(self, nrFFE):
         with open("data/players/playerList.json", 'r') as file:
@@ -132,13 +125,16 @@ class SaverLoader :
         id = round_info.get("id")
         name = round_info.get("name")
         matchList = [(self.createMatchFromJson(match_data)) for match_data in round_info['matchList']]
-        startDate = datetime.datetime.strptime(round_info.get("startDate"), "%Y-%m-%dT%H:%M:%S.%f")
+        startDate = datetime.datetime.strptime(round_info.get("startDate"),
+                                               "%Y-%m-%dT%H:%M:%S.%f")
         if round_info.get("endDate") != None:
-            endDate = datetime.datetime.strptime(round_info.get("endDate"), "%Y-%m-%dT%H:%M:%S.%f")
+            endDate = datetime.datetime.strptime(round_info.get("endDate"),
+                                                 "%Y-%m-%dT%H:%M:%S.%f")
         else:
-            endDate = None      
+            endDate = None
         round = Round()
         round.id = id
+        Round.id -= 1
         round.name = name
         round.matchList = matchList
         round.startDate = startDate
@@ -148,18 +144,20 @@ class SaverLoader :
     def createMatchFromJson(self, data):
         match_info = data.get("match")
         id = match_info.get("id")
-        date = datetime.datetime.strptime(match_info.get("date"), "%Y-%m-%dT%H:%M:%S.%f")
+        date = datetime.datetime.strptime(match_info.get("date"),
+                                          "%Y-%m-%dT%H:%M:%S.%f")
         player1_data = match_info.get("player1")
         player2_data = match_info.get("player2")
         player1 = self.createPlayerFromJson(player1_data)
         player2 = self.createPlayerFromJson(player2_data)
-        duo = ([player1, match_info["player1score"]], [player2, match_info["player2score"]])
+        duo = ([player1, match_info["player1score"]],
+               [player2, match_info["player2score"]])
         match = Match(player1, player2)
         match.id = id
+        Match.id -= 1
         match.date = date
         match.duo = duo
         return match
-
 
     def saveTournament(self, tournament):
         date = tournament.startDate.isoformat().split("T")
@@ -168,11 +166,10 @@ class SaverLoader :
         Activity("Save Tournament").saveActivity()
         with open(file_path, 'w') as file:
             json.dump(tournamentData, file)
-        print("Fichier JSON créé avec succès.")
+        self.saveData()
 
-    
     def updateTournament(self, tournament):
-        files_path = f"data/tournaments"
+        files_path = "data/tournaments"
         Activity("Update Tournament").saveActivity()
         for file_name in os.listdir(files_path):
             if file_name.startswith(f'{tournament.id}-'):
@@ -180,10 +177,11 @@ class SaverLoader :
                 tournamentData = tournament.to_dict()
                 with open(file_path, 'w') as file:
                     json.dump(tournamentData, file)
+        self.saveData()
 
     def readTournament(self):
         tournaments = []
-        files_path = f"data/tournaments"
+        files_path = "data/tournaments"
         for file_name in os.listdir(files_path):
             file_path = os.path.join(files_path, file_name)
             date = file_name[-15:][:10]
@@ -191,17 +189,16 @@ class SaverLoader :
                 tournaments.append((file_name, file_path, date))
         Activity("Read Tournament").saveActivity()
         return tournaments
- 
+
     def loadAllTournament(self):
         tournaments = []
-        files_path = f"data/tournaments"
+        files_path = "data/tournaments"
         for file_name in os.listdir(files_path):
             file_path = os.path.join(files_path, file_name)
             if os.path.isfile(file_path):
                 tournaments.append(self.loadTournament(file_path))
         Activity("Read Tournament").saveActivity()
         return tournaments
-
 
     def loadTournament(self, files_path):
         with open(files_path, 'r') as file:
@@ -212,8 +209,8 @@ class SaverLoader :
             name = tournament_info.get("name")
             place = tournament_info.get("place")
             startDate = datetime.datetime.strptime(tournament_info.get("startDate"), "%Y-%m-%dT%H:%M:%S.%f")
-            if tournament_info.get("endDate") != None:
-                endDate =  datetime.datetime.strptime(tournament_info.get("endDate"), "%Y-%m-%dT%H:%M:%S.%f")
+            if tournament_info.get("endDate") is not None:
+                endDate = datetime.datetime.strptime(tournament_info.get("endDate"), "%Y-%m-%dT%H:%M:%S.%f")
             else:
                 endDate = None
             nrRound = tournament_info.get("nrRound")
@@ -230,7 +227,6 @@ class SaverLoader :
             tournament.description = description
             tournament.playerList = playerList
             tournament.roundList = roundList
-            
             return tournament
 
     def getAllActivity(self):
@@ -245,14 +241,15 @@ class SaverLoader :
 
     def createActivityFromJson(self, data):
         activity_info = data.get("activity")
-        date = datetime.datetime.strptime(activity_info.get("date"), "%Y-%m-%dT%H:%M:%S.%f")
+        date = datetime.datetime.strptime(activity_info.get("date"),
+                                          "%Y-%m-%dT%H:%M:%S.%f")
         type = activity_info.get("type")
         activity = Activity(type)
         activity.date = date
         return activity
 
     def loadSpecificTournament(self, id):
-        files_path = f"data/tournaments"
+        files_path = "data/tournaments"
         for file_name in os.listdir(files_path):
             if file_name.startswith(str(id)):
                 file_path_doc = os.path.join(files_path, file_name)
@@ -264,8 +261,8 @@ class SaverLoader :
             name = tournament_info.get("name")
             place = tournament_info.get("place")
             startDate = datetime.datetime.strptime(tournament_info.get("startDate"), "%Y-%m-%dT%H:%M:%S.%f")
-            if tournament_info.get("endDate") != None:
-                endDate =  datetime.datetime.strptime(tournament_info.get("endDate"), "%Y-%m-%dT%H:%M:%S.%f")
+            if tournament_info.get("endDate") is not None:
+                endDate = datetime.datetime.strptime(tournament_info.get("endDate"), "%Y-%m-%dT%H:%M:%S.%f")
             else:
                 endDate = None
             nrRound = tournament_info.get("nrRound")
@@ -282,5 +279,4 @@ class SaverLoader :
             tournament.description = description
             tournament.playerList = playerList
             tournament.roundList = roundList
-            
             return tournament

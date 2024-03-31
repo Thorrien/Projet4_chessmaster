@@ -1,11 +1,11 @@
 from models.player import Player
 
+
 class Admin:
     def __init__(self):
         pass
-    
+
     def addmember(self, view, saverLoader):
-        
         lastName, firstName, birthName, nrFFE, elo = view.addmember()
         player = Player(lastName, firstName)
         player.birthName = birthName
@@ -18,40 +18,39 @@ class Admin:
             saverLoader.savePlayer(player)
 
     def modifyMember(self, view, saverLoader):
-            while True:
-                    try:
-                        nrFFE = view.modifyPlayer1()
-                        player = saverLoader.getPlayerFromJson(nrFFE)
-                        element = view.modifyPlayer2(player)
-                        if element != '6':
-                            data = view.modifyPlayer4()
-                            if element == '1':
-                                player.lastName = data
-                            elif element == '2':
-                                player.firstName = data
-                            elif element == '3':
-                                player.birthName = data
-                            elif element == '4':
-                                pass
-                            elif element == '5':
-                                player.elo = data
-                            print(f"{player.firstName}, {player.lastName}, {player.birthName}, {player.nrFFE}, {player.elo}")
-                            saverLoader.updatePlayer(player)
-                            break
-                        else: 
-                            break
-                    except :
-                        view.modifyPlayer3()
-                        
+        while True:
+            try:
+                nrFFE = view.modifyPlayer1()
+                player = saverLoader.getPlayerFromJson(nrFFE)
+                element = view.modifyPlayer2(player)
+                if element != '5':
+                    data = view.modifyPlayer4()
+                    if element == '1':
+                        player.lastName = data
+                    elif element == '2':
+                        player.firstName = data
+                    elif element == '3':
+                        player.birthName = data
+                    elif element == '4':
+                        player.elo = data
+                    print(f"{player.firstName}, {player.lastName}, {player.birthName}, {player.nrFFE}, {player.elo}")
+                    saverLoader.updatePlayer(player)
+                    break
+                else:
+                    break
+            except:
+                view.modifyPlayer3()
+
     def printMember(self, view, saverLoader, rapportView):
         playerList = saverLoader.loadAllPlayers()
         playerList.sort(key=lambda player: player.firstName)
         playerList.sort(key=lambda player: player.lastName)
         table = [['Nom', 'Prénom', 'Nom de naissance', 'N°FFE', 'Elo']]
         for player in playerList:
-            table.append([player.lastName, player.firstName, player.birthName, player.nrFFE, player.elo])
+            table.append([player.lastName, player.firstName, player.birthName,
+                          player.nrFFE, player.elo])
         rapportView.printMember(table)
-        
+
     def printActivity(self, view, saverLoader, rapportView):
         activityList = saverLoader.getAllActivity()
         activityList.sort(key=lambda activity: activity.date)

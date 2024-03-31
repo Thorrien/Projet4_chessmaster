@@ -1,12 +1,13 @@
 import datetime
 import json
 
+
 class Activity:
 
     def __init__(self, type):
         self.type = type
         self.date = datetime.datetime.today()
-    
+
     def to_dict(self):
         return {
             "activity": {
@@ -14,7 +15,7 @@ class Activity:
                 "date": self.date.isoformat(),
             }
         }
-        
+
     def saveActivity(self):
         with open("data/data/activity.json", 'r') as mon_fichier:
             activity_data = json.load(mon_fichier)
