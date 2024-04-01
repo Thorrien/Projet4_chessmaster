@@ -1,4 +1,3 @@
-from tabulate import tabulate
 
 
 class View:
@@ -6,10 +5,10 @@ class View:
         pass
 
     def accueil(self):
-        print('-------------------------------------------------------------')
-        print('-------------------------------------------------------------')
-        print('-------------------------CHESS MASTER -----------------------')
-        print('-------------------------------------------------------------')       
+        print('--------------------------------------------------------------')
+        print('--------------------------------------------------------------')
+        print('-------------------------CHESS MASTER ------------------------')
+        print('--------------------------------------------------------------')
         print('---------------------   _______________ ----------------------')
         print('---------------------8 |_|#|_|#|_|#|_|#|----------------------')
         print('---------------------7 |#|_|#|_|#|_|#|_|----------------------')
@@ -22,7 +21,7 @@ class View:
         print('---------------------   a b c d e f g h ----------------------')
         print('--------------------------------------------------------------')
         print('--------------------------------------------------------------')
-    
+
     def quit(self):
         print('--------------------------------------------------------------')
         print('--------------------------Echec et Mat------------------------')
@@ -36,7 +35,7 @@ class View:
         print('------------------------data importées------------------------')
         print(f'Tournois joués : {tournamentId}        ')
         print(f'Rounds joués : {roundId}        ')
-        print(f'Matchs joués : {matchId}        ')   
+        print(f'Matchs joués : {matchId}        ')
         print(f'Nombre de joueurs du cub : {totalClubPlayer}        ')
         print('--------------------------------------------------------------')
 
@@ -50,20 +49,32 @@ class View:
             firstName = input('[Obligatoire] Prénom : ')
             birthName = input('[Facultatif] Nom de naissance : ')
             nrFFE = input('[Obligatoire] Numéro FFE : ')
-            elo = input('[Facultatif] Elo (Par défaut, il sera précisé 1000) :')
-            print("\n\nVous confirmez l'enregistrement du joueur suivant dans la liste du club :")
+            elo = 1000
+            while True:
+                try:
+                    user_input = input(
+                        "[Facultatif] Elo (Par défaut : 1000) : ").strip()
+                    if user_input == "":
+                        break
+                    elo = int(user_input)
+                    break
+                except ValueError:
+                    print("Veuillez entrer un nombre valide.")
+            print("\n\nVous confirmez l'enregistrement du joueur",
+                  "suivant dans la liste du club :")
             print(f'Nom de famille : {lastName}')
             print(f'Prénom : {firstName}')
             print(f'Nom de naissance : {birthName}')
             print(f'Numéro FFE : {nrFFE}')
-            print(f'Elo : {elo}') 
+            print(f'Elo : {elo}')
             while choice not in ['Oui', 'Non', 'Quitter']:
                 choice = input("'Oui' / 'Non' / 'Quitter' : ")
             if choice == 'Oui':
                 return lastName, firstName, birthName, nrFFE, elo
 
     def modifyConf(self):
-        print("\n\nLe joueur est déja présent dans la liste des joueurs du club. Souhaitez vous le mettre à jour ? ")
+        print("\n\nLe joueur est déja présent dans la liste des",
+              " joueurs du club. Souhaitez vous le mettre à jour ? ")
         choice = None
         while choice not in ['Oui', 'Non']:
             choice = input("Votre choix 'Oui' / 'Non' : ")
@@ -76,7 +87,7 @@ class View:
         print('--------------------------------------------------------------')
         print("---------Modifier une caractéristique d'un membre ------------")
         print('--------------------------------------------------------------')
-        print("\n\n Quel est le numéro FFE du Joueur ?")        
+        print("\n\n Quel est le numéro FFE du Joueur ?")
         nrFfe = input('N°FFE : ')
         return nrFfe
 
@@ -93,12 +104,13 @@ class View:
         return choice
 
     def modifyPlayer3(self):
-        print("\n\n Il n'y a pas de joueur du club avec ce N° FFE, Quel est le numéro FFE du Joueur ?")        
+        print("\n\n Il n'y a pas de joueur du club avec",
+              " ce N° FFE, Quel est le numéro FFE du Joueur ?")
         nrFfe = input('N°FFE : ')
         return nrFfe
 
     def modifyPlayer4(self):
-        print("\n\n Quelle est la nouvelle valeur ?")        
+        print("\n\n Quelle est la nouvelle valeur ?")
         data = input(' Votre saisie : ')
         return data
 
@@ -107,7 +119,7 @@ class View:
         print("--------------------Création d'un tournoi---------------------")
 
     def addPlayerAlreadyPresent(self):
-        print("Joueur déjà présent dans le tournoi !" )
+        print("Joueur déjà présent dans le tournoi !")
         input("Appuyez sur Entrée pour continuer...")
 
     def createTournament(self):
@@ -117,14 +129,16 @@ class View:
             name = input('[Obligatoire] Nom du tournoi : ')
             place = input('[Obligatoire] Lieu du tournoi : ')
             description = input('[Facultatif] Courte description : ')
-            nrRound = 4 
+            nrRound = 4
             while True:
                 try:
-                    user_input = input("[Facultatif] Nombre de tours (Par défaut 4): ").strip()
-                    if user_input == "":  
-                        break  
+                    user_input = input(
+                        "[Facultatif] Nombre de tours (Par défaut 4): "
+                        ).strip()
+                    if user_input == "":
+                        break
                     nrRound = int(user_input)
-                    break  
+                    break
                 except ValueError:
                     print("Veuillez entrer un nombre valide.")
             print("\n\nVous confirmez l'enregistrement du tournoi suivant :")
@@ -140,15 +154,17 @@ class View:
     def confirmation(self, tournament):
         choice = None
         while choice not in ['Oui', 'Non']:
-            print("\n\nATTENTION : Le lancement du tournoi bloquera l'ajout de joueurs.")
-            choice = input("Avez vous associé tous les joueurs ? 'Oui' / 'Non' : ")
+            print("\n\nATTENTION : Le lancement du tournoi",
+                  " bloquera l'ajout de joueurs.")
+            choice = input(
+                "Avez vous associé tous les joueurs ? 'Oui' / 'Non' : ")
         if choice == 'Oui':
             return True
         else:
             return False
 
     def tournamentChoice(self, idList):
-        print("\n\n Quel est l'id du tournoi que vous souhaitez continuer ? ")     
+        print("\n\n Quel est l'id du tournoi que vous souhaitez continuer ? ")
         choice = None
         while choice not in idList:
             choice = int(input('Votre choix : '))
@@ -169,11 +185,11 @@ class View:
         return data, choice
 
     def blockAddPlayer(self):
-        print("\n\n Ajout de joueur impossible, le tournoi a commencé")      
+        print("\n\n Ajout de joueur impossible, le tournoi a commencé")
         input("Appuyez sur Entrée pour continuer...")
 
     def maxRound(self):
-        print("\n\n Nombre de tours max atteint.")      
+        print("\n\n Nombre de tours max atteint.")
         input("Appuyez sur Entrée pour continuer...")
 
     def actualRoundNotFinished(self):
@@ -185,7 +201,8 @@ class View:
         input("Appuyez sur Entrée pour continuer...")
 
     def blockvalidation(self):
-        print("\n\nImpossible de terminer le tour, tous les scores n'ont pas été intégrés")
+        print("\n\nImpossible de terminer le tour, tous les scores ",
+              "n'ont pas été intégrés")
         input("Appuyez sur Entrée pour continuer...")
 
     def scoresIntegration(self, tournament, nrRoundList):
@@ -195,5 +212,6 @@ class View:
             idMatch = int(input('\nId de match :'))
             print("\nQuel est le résultat pour le joueur 1 ?")
         while player1Score not in ['P', 'G', 'E']:
-            player1Score = input("A t'il gagné =>(G), perdu=>(P) ou égalité=>(E) : ")
+            player1Score = input(
+                "A t'il gagné =>(G),perdu=>(P) ou égalité=>(E) : ")
         return idMatch, player1Score

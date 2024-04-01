@@ -3,10 +3,9 @@ import random
 from models.round import Round
 
 
-
 class Tournament:
     id = 0
-        
+
     def __init__(self, name, place, nrRound=4):
         Tournament.id += 1
         self.id = Tournament.id
@@ -24,7 +23,7 @@ class Tournament:
         return f"Tournoi {self.name} commencé le : {self.startDate}"
 
     def to_dict(self):
-        if self.endDate == None:
+        if self.endDate is None:
             return {
                 "tournament": {
                     "id": self.id,
@@ -35,10 +34,12 @@ class Tournament:
                     "nrRound": self.nrRound,
                     "actualRound": self.actualRound,
                     "roundList": [round.to_dict() for round in self.roundList],
-                    "playerList": [{"player": player.to_dict(), "score": score} for player, score in self.playerList],
+                    "playerList": [{
+                        "player": player.to_dict(),
+                        "score": score} for player, score in self.playerList],
                     "description": self.description,
                 }
-            }         
+            }
         else:
             return {
                 "tournament": {
@@ -50,11 +51,12 @@ class Tournament:
                     "nrRound": self.nrRound,
                     "actualRound": self.actualRound,
                     "roundList": [round.to_dict() for round in self.roundList],
-                    "playerList": [{"player": player.to_dict(), "score": score} for player, score in self.playerList],
+                    "playerList": [{
+                        "player": player.to_dict(),
+                        "score": score} for player, score in self.playerList],
                     "description": self.description,
                 }
             }
-
 
     def getName(self):
         return self.name
@@ -113,13 +115,15 @@ class Tournament:
 
     def printPlayerList(self):
         print(f"-----Liste des joueurs du tournoi {self.name}-----")
-        for player,score in self.playerList:
-            print(f"{player.nrFFE} --- Elo ({player.elo}) -- Score : {score} - {player.firstName}  {player.lastName}  {player.birthName}")
+        for player, score in self.playerList:
+            print(f"{player.nrFFE} --- Elo ({player.elo}) -- Score",
+                  f" : {score} - {player.firstName}  {player.lastName} ",
+                  f" {player.birthName}")
 
     def createRound(self):
         if self.actualRound != 0:
             self.classifyPlayers(self.playerList)
-        else: 
+        else:
             self.shufflePlayer()
         self.roundList.append(Round())
         self.roundList[self.actualRound].createMatchList(self.playerList)
@@ -127,24 +131,13 @@ class Tournament:
 
     def updateScores(self):
         for match in self.roundList[len(self.roundList)-1].matchList:
-            print( f"{match.duo[0][1]} VS {match.duo[1][1]}")
             player1, player2 = match.duo[0][0], match.duo[1][0]
             for i, (player, score) in enumerate(self.playerList):
-                print(player.firstName)
                 if player.nrFFE == player1.nrFFE:
-                    print(player.firstName)
-                    print(player1.firstName)
                     self.playerList[i] = (player, score + match.duo[0][1])
                 elif player.nrFFE == player2.nrFFE:
-                    print(player.firstName)
-                    print(player2.firstName)
                     self.playerList[i] = (player, score + match.duo[1][1])
 
-        for player, score in self.playerList:
-            print(f"joueur : {player.firstName} Score : {score}")
-
-
-
     def classifyPlayers(self, playerlist):
-        self.playerList = sorted(self.playerList, key=lambda x: x[1], reverse=True)
-
+        self.playerList = sorted(self.playerList, key=lambda x: x[1],
+                                 reverse=True)

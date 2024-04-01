@@ -24,7 +24,6 @@ class SaverLoader:
         file_path = "data/data/data.json"
         with open(file_path, 'w') as file:
             json.dump(data, file)
-        print("Fichier JSON créé avec succès.")
 
     def loadData(self):
         with open("data/data/data.json", 'r') as file:
@@ -45,7 +44,8 @@ class SaverLoader:
         player_dict = player.to_dict()
         player_exists = False
         for existing_player in players_data:
-            if existing_player["player"]["nrFFE"] == player_dict["player"]["nrFFE"]:
+            if existing_player["player"][
+                    "nrFFE"] == player_dict["player"]["nrFFE"]:
                 self.updatePlayer(existing_player)
                 player_exists = True
                 break
@@ -66,7 +66,8 @@ class SaverLoader:
         Activity("Cheak Player").saveActivity()
         player_dict = player.to_dict()
         for existing_player in players_data:
-            if existing_player["player"]["nrFFE"] == player_dict["player"]["nrFFE"]:
+            if existing_player["player"][
+                    "nrFFE"] == player_dict["player"]["nrFFE"]:
                 return True
 
     def updatePlayer(self, player):
@@ -101,7 +102,7 @@ class SaverLoader:
             players_data = json.load(file)
         for player_data in players_data:
             if player_data["player"]["nrFFE"] == nrFFE:
-                lastName = player_data["player"]["lastName"] 
+                lastName = player_data["player"]["lastName"]
                 firstName = player_data["player"]["firstName"]
                 birthName = player_data["player"]["birthName"]
                 elo = player_data["player"]["elo"]
@@ -124,10 +125,11 @@ class SaverLoader:
         round_info = data.get("round")
         id = round_info.get("id")
         name = round_info.get("name")
-        matchList = [(self.createMatchFromJson(match_data)) for match_data in round_info['matchList']]
+        matchList = [(self.createMatchFromJson(
+            match_data)) for match_data in round_info['matchList']]
         startDate = datetime.datetime.strptime(round_info.get("startDate"),
                                                "%Y-%m-%dT%H:%M:%S.%f")
-        if round_info.get("endDate") != None:
+        if round_info.get("endDate") is not None:
             endDate = datetime.datetime.strptime(round_info.get("endDate"),
                                                  "%Y-%m-%dT%H:%M:%S.%f")
         else:
@@ -161,7 +163,8 @@ class SaverLoader:
 
     def saveTournament(self, tournament):
         date = tournament.startDate.isoformat().split("T")
-        file_path = f"data/tournaments/{tournament.id}-{tournament.name}-Date--{date[0]}.json"
+        file_path = f"data/tournaments/{
+            tournament.id}-{tournament.name}-Date--{date[0]}.json"
         tournamentData = tournament.to_dict()
         Activity("Save Tournament").saveActivity()
         with open(file_path, 'w') as file:
@@ -185,7 +188,7 @@ class SaverLoader:
         for file_name in os.listdir(files_path):
             file_path = os.path.join(files_path, file_name)
             date = file_name[-15:][:10]
-            if os.path.isfile(file_path):  
+            if os.path.isfile(file_path):
                 tournaments.append((file_name, file_path, date))
         Activity("Read Tournament").saveActivity()
         return tournaments
@@ -208,15 +211,20 @@ class SaverLoader:
             id = tournament_info.get("id")
             name = tournament_info.get("name")
             place = tournament_info.get("place")
-            startDate = datetime.datetime.strptime(tournament_info.get("startDate"), "%Y-%m-%dT%H:%M:%S.%f")
+            startDate = datetime.datetime.strptime(
+                tournament_info.get("startDate"), "%Y-%m-%dT%H:%M:%S.%f")
             if tournament_info.get("endDate") is not None:
-                endDate = datetime.datetime.strptime(tournament_info.get("endDate"), "%Y-%m-%dT%H:%M:%S.%f")
+                endDate = datetime.datetime.strptime(
+                    tournament_info.get("endDate"), "%Y-%m-%dT%H:%M:%S.%f")
             else:
                 endDate = None
             nrRound = tournament_info.get("nrRound")
             actualRound = tournament_info.get("actualRound")
-            roundList = [self.createRoundFromJson(round_data) for round_data in tournament_info['roundList']]
-            playerList = [(self.createPlayerFromJson(player_data["player"]), player_data["score"]) for player_data in tournament_info['playerList']]
+            roundList = [self.createRoundFromJson(
+                round_data) for round_data in tournament_info['roundList']]
+            playerList = [(self.createPlayerFromJson(
+                player_data["player"]), player_data[
+                    "score"]) for player_data in tournament_info['playerList']]
             description = tournament_info.get("description")
             tournament = Tournament(name, place, nrRound)
             tournament.id = id
@@ -237,7 +245,6 @@ class SaverLoader:
                 activity = self.createActivityFromJson(activity_data)
                 listOfActivity.append(activity)
             return listOfActivity
-
 
     def createActivityFromJson(self, data):
         activity_info = data.get("activity")
@@ -260,15 +267,21 @@ class SaverLoader:
             id = tournament_info.get("id")
             name = tournament_info.get("name")
             place = tournament_info.get("place")
-            startDate = datetime.datetime.strptime(tournament_info.get("startDate"), "%Y-%m-%dT%H:%M:%S.%f")
+            startDate = datetime.datetime.strptime(
+                tournament_info.get("startDate"), "%Y-%m-%dT%H:%M:%S.%f")
             if tournament_info.get("endDate") is not None:
-                endDate = datetime.datetime.strptime(tournament_info.get("endDate"), "%Y-%m-%dT%H:%M:%S.%f")
+                endDate = datetime.datetime.strptime(
+                    tournament_info.get("endDate"), "%Y-%m-%dT%H:%M:%S.%f")
             else:
                 endDate = None
             nrRound = tournament_info.get("nrRound")
             actualRound = tournament_info.get("actualRound")
-            roundList = [self.createRoundFromJson(round_data) for round_data in tournament_info['roundList']]
-            playerList = [(self.createPlayerFromJson(player_data["player"]), player_data["score"]) for player_data in tournament_info['playerList']]
+            roundList = [self.createRoundFromJson(
+                round_data) for round_data in tournament_info['roundList']]
+            playerList = [(self.createPlayerFromJson(
+                player_data["player"]),
+                player_data["score"]) for player_data in tournament_info[
+                    'playerList']]
             description = tournament_info.get("description")
             tournament = Tournament(name, place, nrRound)
             tournament.id = id

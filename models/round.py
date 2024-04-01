@@ -41,7 +41,6 @@ class Round:
 
     def endRound(self):
         self.endDate = datetime.datetime.today()
-        print(f'round {self.id} est terminé')
 
     def createMatchList(self, playerlist):
         couples = len(playerlist)/2

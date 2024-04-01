@@ -1,16 +1,16 @@
-import json
+
 
 class Player:
     def __init__(self, lastName, firstName,
-                 birthName="", nrFFE="XXXXXXX", elo=1000, lastOpponent='Personne'):
+                 birthName="", nrFFE="XXXXXXX", elo=1000,
+                 lastOpponent='Personne'):
         self.lastName = lastName
         self.firstName = firstName
         self.birthName = birthName
         self.nrFFE = nrFFE
         self.elo = elo
         self.listMatch = []
-        self.lastOpponent= lastOpponent
-
+        self.lastOpponent = lastOpponent
 
     def to_dict(self):
         return {
@@ -21,7 +21,6 @@ class Player:
                 "birthName": self.birthName,
                 "elo": self.elo,
                 "lastOpponent": self.lastOpponent
-                #"listMatch": [match.to_dict() for match in self.listMatch]
             }
         }
 
@@ -58,5 +57,3 @@ class Player:
 
     def setelo(self, newElo):
         self.elo = newElo
-
-
