@@ -21,6 +21,6 @@ class Activity:
             activity_data = json.load(mon_fichier)
 
         activity_data.append(self.to_dict())
-        file_path = f"data/data/activity.json"
+        file_path = "data/data/activity.json"
         with open(file_path, 'w') as file:
             json.dump(activity_data, file)

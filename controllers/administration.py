@@ -33,12 +33,15 @@ class Admin:
                         player.birthName = data
                     elif element == '4':
                         player.elo = data
-                    print(f"{player.firstName}, {player.lastName}, {player.birthName}, {player.nrFFE}, {player.elo}")
+                    print(
+                        f"{player.firstName}, {player.lastName}, "
+                        f"{player.birthName}, {player.nrFFE}, {player.elo}"
+                    )
                     saverLoader.updatePlayer(player)
                     break
                 else:
                     break
-            except:
+            except Exception:
                 view.modifyPlayer3()
 
     def printMember(self, view, saverLoader, rapportView):

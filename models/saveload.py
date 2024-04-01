@@ -42,7 +42,8 @@ class SaverLoader:
         player_dict = player.to_dict()
         player_exists = False
         for existing_player in players_data:
-            if (existing_player["player"]["nrFFE"] == player_dict["player"]["nrFFE"]):
+            if (existing_player["player"]["nrFFE"] ==
+                    player_dict["player"]["nrFFE"]):
                 self.updatePlayer(existing_player)
                 player_exists = True
                 break

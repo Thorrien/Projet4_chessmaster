@@ -53,19 +53,12 @@ class Round:
                 groups[score] = []
             groups[score].append(element)
         for group in groups.values():
-            print("avant mélange")
-            for element in group:
-                print(element[0].firstName)
             random.shuffle(group)
-            print("après mélange")
-            for element in group:
-                print(element[0].firstName)
         playerlist = []
         for group in groups.values():
             playerlist.extend(group)
         for x in range(int(couples)):
             if playerlist[0][0].lastOpponent != 'Personne':
-                #if playerlist[0][0].lastOpponent in (playerlist[0][0].nrFFE, playerlist[1][0].nrFFE):
                 if playerlist[0][0].lastOpponent in (playerlist[0][0].nrFFE,
                                                      playerlist[1][0].nrFFE):
                     if len(playerlist) == 2:
