@@ -6,6 +6,18 @@ class TournamentManager:
         pass
 
     def createTournament(self, view, saverLoader):
+        """
+        Récupère les informations d'un tournoi venant de la vue et le
+        sauvegarde
+
+        Args:
+            view: Vue pour  la récupération des données.
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+
+        Returns :
+            None
+
+        """
         view.startTournament()
         name, place, description, nrRound = view.createTournament()
         tournament = Tournament(name, place)
@@ -14,6 +26,19 @@ class TournamentManager:
         saverLoader.saveTournament(tournament)
 
     def printAllTournament(self, saverLoader, rapportView):
+        """
+        Récupère les informations des tournois sauvegardés
+        Intègre les données dans un tableau, les envoie à la
+        vue et retourne une liste d'id des tournois.
+
+        Args:
+            rapportview: Vue pour  l'affichage des tableaux.
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+
+        Returns List :
+            Liste des id des tournois
+
+        """
         idList = []
         tournaments = saverLoader.loadAllTournament()
         tournaments.sort(key=lambda tournament: tournament.startDate,
@@ -36,6 +61,20 @@ class TournamentManager:
         return idList
 
     def printActivesTournament(self, saverLoader, rapportView):
+        """
+        Récupère les informations des tournois sauvegardés
+        Trie les tournois pour ne récupérer que les actifs
+        Intègre les données dans un tableau, les envoie à la
+        vue et retourne une liste d'id des tournois.
+
+        Args:
+            rapportview: Vue pour  l'affichage des tableaux.
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+
+        Returns List :
+            Liste des id des tournois en cours
+
+        """
         idList = []
         tournaments = saverLoader.loadAllTournament()
         tournaments.sort(key=lambda tournament: tournament.startDate,
@@ -57,12 +96,41 @@ class TournamentManager:
         return idList
 
     def continueTournament(self, saverLoader, view, rapportView):
+        """
+        Récupère l'id du tournoi de la vue et retourne le choix.
+
+        Args:
+            view: Vue pour  la récupération des données.
+            rapportview: Vue pour  l'affichage des tableaux.
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+
+        Returns List :
+            Liste des id des tournois
+
+        """
         idList = self.printActivesTournament(saverLoader, rapportView)
         choice = view.tournamentChoice(idList)
         return choice
 
     def manageTment(self, saverLoader, view, rapportView,
                     menuView, choice):
+        """
+        Gère l'affichage des tournois actif en constituant le tableau.
+        et l'envoie a la vue.
+        Même chose pour la liste des joueurs du tournoi.
+        Affiche un menu de gestion du dournoi et
+        récupère le choix de l'utilisateur
+
+        Args:
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            view: Vue pour  la récupération des données.
+            rapportview: Vue pour  l'affichage des tableaux.
+            menueview : Vue pour l'affichage des menus.
+
+        Returns Tournament, choice :
+            Tournoi et choix de l'utilisateur
+
+        """
         tournament = saverLoader.loadSpecificTournament(choice)
         table = [['id', 'Nom du tournoi', 'Date', 'tours']]
         table.append([tournament.id, tournament.name,
@@ -81,6 +149,21 @@ class TournamentManager:
         return tournament, choice
 
     def modifyTournament(self, saverLoader, view, rapportView, tournament):
+        """
+        Récupère les infos d'un tournoi et propose à
+        l'utilisateur d'en modifier une.
+        Sauvegarde la modification.
+
+        Args:
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            view: Vue pour  la récupération des données.
+            rapportview: Vue pour  l'affichage des tableaux.
+            tournament : tournoi a modifier
+
+        Returns :
+            None
+
+        """
         data, choice = view.modifyTournament(tournament)
         if data is not None or choice != '6':
             if choice == '1':
@@ -92,6 +175,21 @@ class TournamentManager:
         saverLoader.updateTournament(tournament)
 
     def addPlayerTournament(self, saverLoader, view, rapportView, tournament):
+        """
+        Affiche la liste des joueurs du club et propose
+        d'ajouter un joueur au tournoi.
+        Sauvegarde le tournoi avec le joueur.
+
+        Args:
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            view: Vue pour  la récupération des données.
+            rapportview: Vue pour  l'affichage des tableaux.
+            tournament : tournoi a modifier
+
+        Returns :
+            None
+
+        """
         nrFFE = None
         while nrFFE != 'Terminé':
             table = [['N°FFE', 'Nom', 'Prénom', 'Nom de naissance', 'Elo']]
@@ -129,6 +227,19 @@ class TournamentManager:
                 nrFFE = 'Terminé'
 
     def printspecifictournament(self, saverLoader, view, rapportView):
+        """
+        Affiche la liste des tournois, demande l'id et
+        Affiche les détails d'un tournoi
+
+        Args:
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            view: Vue pour  la récupération des données.
+            rapportview: Vue pour  l'affichage des tableaux.
+
+        Returns :
+            None
+
+        """
         idList = self.printAllTournament(saverLoader, rapportView)
         choice = view.tournamentChoice(idList)
         tournament = saverLoader.loadSpecificTournament(choice)
@@ -168,6 +279,19 @@ class TournamentManager:
         rapportView.printTournament(table, table2, table3, tables, tournament)
 
     def playerListOfASpecificTournament(self, saverLoader, view, rapportView):
+        """
+        Affiche la liste des tournois, demande l'id et
+        Affiche la liste des joueurs d'un tournoi
+
+        Args:
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            view: Vue pour  la récupération des données.
+            rapportview: Vue pour  l'affichage des tableaux.
+
+        Returns :
+            None
+
+        """
         idList = self.printAllTournament(saverLoader, rapportView)
         choice = view.tournamentChoice(idList)
         tournament = saverLoader.loadSpecificTournament(choice)
@@ -182,6 +306,19 @@ class TournamentManager:
         rapportView.printPlayerListTournament(table2, tournament)
 
     def matchListOfASpecificTournament(self, saverLoader, view, rapportView):
+        """
+        Affiche la liste des tournois, demande l'id et
+        Affiche la liste des matchs d'un tournoi
+
+        Args:
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            view: Vue pour  la récupération des données.
+            rapportview: Vue pour  l'affichage des tableaux.
+
+        Returns :
+            None
+
+        """
         idList = self.printAllTournament(saverLoader, rapportView)
         choice = view.tournamentChoice(idList)
         tournament = saverLoader.loadSpecificTournament(choice)
@@ -200,10 +337,35 @@ class TournamentManager:
         rapportView.printMatchListTournament(tables, tournament)
 
     def runNextTournament(self, saverLoader, tournament):
+        """
+            Lance un nouveau tour d'un tournoi
+
+        Args:
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            tournament : tournoi
+
+        Returns :
+            None
+
+        """
         tournament.createRound()
         saverLoader.updateTournament(tournament)
 
     def addScores(self, saverLoader, view, rapportView, menuView, tournament):
+        """
+        Affiche la liste des matchs, demande la méthode d'ajou des scores
+
+        Args:
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            view: Vue pour  la récupération des données.
+            rapportview: Vue pour  l'affichage des tableaux.
+            menueview: Vue pour afficher un menu
+            tournament : tournoi
+
+        Returns :
+            None
+
+        """
         table4 = [["Tour", "Id ", "Joueur 1", "Joueur 2", "Score"]]
         for match in tournament.roundList[len(
                 tournament.roundList)-1].matchList:
@@ -223,6 +385,17 @@ class TournamentManager:
         return choice
 
     def printPlayerScores(self, rapportView, tournament):
+        """
+        Affiche la liste des scores d'un tournois
+
+        Args:
+            rapportview: Vue pour  l'affichage des tableaux.
+            tournament: tournoi
+
+        Returns :
+            None
+
+        """
         table = [['Nom', 'Prénom', 'score',
                   'Nom de naissance', 'N°FFE', 'Elo']]
         tournament.playerList.sort(key=lambda player: player[0].firstName)
@@ -234,12 +407,35 @@ class TournamentManager:
         rapportView.printPlayerScores(table, tournament)
 
     def playMatchRandom(self, saverLoader, tournament):
+        """
+        Joue les matchs aléatoirement
+
+        Args:
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            tournament : tournoi
+
+        Returns :
+            None
+
+        """
         for match in tournament.roundList[len(
                 tournament.roundList)-1].matchList:
             match.jouerMatch()
             saverLoader.updateTournament(tournament)
 
     def endARound(self, view, saverLoader, tournament):
+        """
+        Termine le dernier tour d'un tournoi.
+
+        Args:
+            view: Vue pour  la récupération des données.
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            tournament: Tournoi
+
+        Returns bool:
+            True si la démarche est exécutée et sauvegardée
+
+        """
         validation = True
         for match in tournament.roundList[len(
                 tournament.roundList)-1].matchList:
@@ -254,10 +450,35 @@ class TournamentManager:
             view.blockvalidation()
 
     def endTmt(self, saverLoader, tournament):
+        """
+        Termine le tournoi.
+
+        Args:
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            tournament: Tournoi
+
+        Returns :
+            None
+
+        """
         tournament.setEndDate()
         saverLoader.updateTournament(tournament)
 
     def postScores(self, saverLoader, view, rapportView, tournament):
+        """
+        Demande l'id et le score du joueur 1.
+        Puis met a jour le tournoi en appliquant le bon score aux deux joueurs.
+
+        Args:
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+            view: Vue pour  la récupération des données.
+            rapportview: Vue pour  l'affichage des tableaux.
+            tournament : tournoi
+
+        Returns :
+            None
+
+        """
         table4 = [["Tour", "Id ", "Joueur 1", "Joueur 2", "Score"]]
         nrRoundList = []
         for match in tournament.roundList[len(

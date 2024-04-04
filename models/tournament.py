@@ -130,6 +130,16 @@ class Tournament:
         self.actualRound += 1
 
     def updateScores(self):
+        """
+        Update les scores des matchs vers ceux du tournoi
+
+        Args:
+            None
+
+        Returns :
+            None
+
+        """
         for match in self.roundList[len(self.roundList)-1].matchList:
             player1, player2 = match.duo[0][0], match.duo[1][0]
             for i, (player, score) in enumerate(self.playerList):

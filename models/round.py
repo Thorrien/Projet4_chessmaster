@@ -43,9 +43,21 @@ class Round:
         self.endDate = datetime.datetime.today()
 
     def createMatchList(self, playerlist):
+        """
+        Créé des matchs à partir d'une liste de joueurs.
+
+        Args:
+            playerlist: Liste de joueurs
+
+        Returns :
+            None
+
+        """
         couples = len(playerlist)/2
         newPlayerList = []
         groups = {}
+# Classe les éléments de la liste de joueur dans des dictionnaires
+# selon le score puis les mélangent aléatoirement et la reconsitue
         for element in playerlist:
             score = element[1]
             if score not in groups:
@@ -56,6 +68,10 @@ class Round:
         playerlist = []
         for group in groups.values():
             playerlist.extend(group)
+# fait passer les joueurs dans une autre liste
+# Si le joueur 1 n'a pas de last opponent, fait passer 0 et 1
+# si le last opponent, est le second joueur de la liste, passe le 0 et 2
+# sinon fait passer 0 et 1
         for x in range(int(couples)):
             if playerlist[0][0].lastOpponent != 'Personne':
                 if playerlist[0][0].lastOpponent in (playerlist[0][0].nrFFE,
@@ -80,6 +96,7 @@ class Round:
                 newPlayerList.append(playerlist[1])
                 playerlist.pop(1)
                 playerlist.pop(0)
+# pour cette nouvelle liste, créé les matchs par duo
         for x in range(int(couples)):
             self.matchList.append(Match(newPlayerList[(2*x)][0],
                                         newPlayerList[1+(2*x)][0]))

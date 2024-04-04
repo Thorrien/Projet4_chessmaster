@@ -24,6 +24,16 @@ class Match:
         }
 
     def jouerMatch(self):
+        """
+        Joue le match aléatoirement
+
+        Args:
+            None
+
+        Returns :
+            None
+
+        """
         listeScores = [0, 0.5, 1]
         Player1Score = listeScores[random.randint(0, len(listeScores)-1)]
         if Player1Score == 1:

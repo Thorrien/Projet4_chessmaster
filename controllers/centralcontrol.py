@@ -25,6 +25,17 @@ class CentralControl:
         self.playerList = self.saverLoader.loadAllPlayers()
 
     def run(self):
+        """
+        Lance l'application.
+        Accueil => Chargement => import des données et le menu.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        """
         self.view.accueil()
         self.view.loading()
         sleep(0)
@@ -37,5 +48,15 @@ class CentralControl:
                                  self.rapportView)
 
     def importData(self):
+        """
+        Importe les données du Json Data poir les afficher.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        """
         self.saverLoader.loadData()
         self.view.data(Tournament.id, Round.id, Match.id, len(self.playerList))

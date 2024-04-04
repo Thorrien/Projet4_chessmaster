@@ -14,6 +14,16 @@ class SaverLoader:
         pass
 
     def saveData(self):
+        """
+        Sauvegarde dans le Json les datas de l'application
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        """
         data = {
                 "data": {
                     "tournamentId": Tournament.id,
@@ -26,6 +36,16 @@ class SaverLoader:
             json.dump(data, file)
 
     def loadData(self):
+        """
+        Charge les données de l'application.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        """
         with open("data/data/data.json", 'r') as file:
             datas = json.load(file)
             data = datas.get("data")
@@ -35,12 +55,22 @@ class SaverLoader:
             Activity("Load data").saveActivity()
 
     def savePlayer(self, player):
+        """
+        Sauvegarde dans le Json les donnée d'un joueur
+
+        Args:
+            Player
+
+        Returns:
+            None
+
+        """
         try:
             with open("data/players/playerList.json", 'r') as mon_fichier:
                 players_data = json.load(mon_fichier)
         except (FileNotFoundError, json.decoder.JSONDecodeError):
             players_data = []
-
+# Vérification que le joueur est déjà présent dans le Json, si oui update
         player_dict = player.to_dict()
         player_exists = False
         for existing_player in players_data:
@@ -49,7 +79,7 @@ class SaverLoader:
                 self.updatePlayer(existing_player)
                 player_exists = True
                 break
-
+#                                                           , si non ajout
         if not player_exists:
             players_data.append(player_dict)
             Activity("Add Player to club list").saveActivity()
@@ -58,6 +88,16 @@ class SaverLoader:
             json.dump(players_data, mon_fichier)
 
     def cheakPlayer(self, player):
+        """
+        Controle si le Joueur est présent dans le Json
+
+        Args:
+            Player
+
+        Returns Bool:
+            True si le joueur est présent.
+
+        """
         try:
             with open("data/players/playerList.json", 'r') as mon_fichier:
                 players_data = json.load(mon_fichier)
@@ -71,6 +111,16 @@ class SaverLoader:
                 return True
 
     def updatePlayer(self, player):
+        """
+        Update le Joueur dans le JSon
+
+        Args:
+            Player
+
+        Returns :
+            None
+
+        """
         with open("data/players/playerList.json", 'r') as file:
             players_data = json.load(file)
 
@@ -88,6 +138,16 @@ class SaverLoader:
         Activity("Update Player").saveActivity()
 
     def loadAllPlayers(self):
+        """
+        Récupère tous les joueurs du Json
+
+        Args:
+            None
+
+        Returns List:
+            Liste des joueurs.
+
+        """
         listOfPlayers = []
         with open("data/players/playerList.json", 'r') as file:
             players_data = json.load(file)
@@ -98,6 +158,16 @@ class SaverLoader:
             return listOfPlayers
 
     def getPlayerFromJson(self, nrFFE):
+        """
+        Cherche un numero FFE et retourne le joueur du Json
+
+        Args:
+            Numéro FFE du joueur
+
+        Returns Player:
+            Joueur.
+
+        """
         with open("data/players/playerList.json", 'r') as file:
             players_data = json.load(file)
         for player_data in players_data:
@@ -112,6 +182,16 @@ class SaverLoader:
         return Player(lastName, firstName, birthName, nrFFE, elo, lastOpponent)
 
     def createPlayerFromJson(self, data):
+        """
+        Créée un joueur à partir d'une data .json
+
+        Args:
+            Data d'un joueur au format Json
+
+        Returns Player:
+            Joueur.
+
+        """
         player_info = data.get("player")
         lastName = player_info.get("lastName")
         firstName = player_info.get("firstName")
@@ -122,6 +202,16 @@ class SaverLoader:
         return Player(lastName, firstName, birthName, nrFFE, elo, lastOpponent)
 
     def createRoundFromJson(self, data):
+        """
+        Créée un round à partir d'une data .json
+
+        Args:
+            Data d'un joueur au format Json
+
+        Returns Round:
+            Tour.
+
+        """
         round_info = data.get("round")
         id = round_info.get("id")
         name = round_info.get("name")
@@ -144,6 +234,16 @@ class SaverLoader:
         return round
 
     def createMatchFromJson(self, data):
+        """
+        Créée un match à partir d'une data .json
+
+        Args:
+            Data d'un match au format Json
+
+        Returns Match:
+            Joueur.
+
+        """
         match_info = data.get("match")
         id = match_info.get("id")
         date = datetime.datetime.strptime(match_info.get("date"),
@@ -162,6 +262,16 @@ class SaverLoader:
         return match
 
     def saveTournament(self, tournament):
+        """
+        Enregistre un tournoi dans un fichier Json adapté
+
+        Args:
+            tournoi
+
+        Returns :
+            None.
+
+        """
         date = tournament.startDate.isoformat().split("T")
         file_path = f"data/tournaments/{
             tournament.id}-{tournament.name}-Date--{date[0]}.json"
@@ -172,6 +282,16 @@ class SaverLoader:
         self.saveData()
 
     def updateTournament(self, tournament):
+        """
+        Met à jour un tournoi dans son fichier Json
+
+        Args:
+            tournoi
+
+        Returns :
+            None.
+
+        """
         files_path = "data/tournaments"
         Activity("Update Tournament").saveActivity()
         for file_name in os.listdir(files_path):
@@ -183,6 +303,18 @@ class SaverLoader:
         self.saveData()
 
     def readTournament(self):
+        """
+        Récupère la liste documents dans le dossier tournaments
+        et retourne les informations.
+
+        Args:
+            None
+
+        Returns List:
+            Une liste d'informations. pour chaque document :
+            (Nom du fichier, Chemin d'accès, date)
+
+        """
         tournaments = []
         files_path = "data/tournaments"
         for file_name in os.listdir(files_path):
@@ -194,6 +326,16 @@ class SaverLoader:
         return tournaments
 
     def loadAllTournament(self):
+        """
+        Charge tous les tournois des fichiers des tournois
+
+        Args:
+            None
+
+        Returns List :
+            Liste des tournois
+
+        """
         tournaments = []
         files_path = "data/tournaments"
         for file_name in os.listdir(files_path):
@@ -204,6 +346,17 @@ class SaverLoader:
         return tournaments
 
     def loadTournament(self, files_path):
+        """
+        Récupère les informations d'un Json d'un tournoi et le
+        retourne en instance tournoi
+
+        Args:
+            Lien d'accès du document
+
+        Returns Tournament :
+            Un tournoi
+
+        """
         with open(files_path, 'r') as file:
             tournament_data = json.load(file)
             tournament_info = tournament_data.get("tournament")
@@ -238,6 +391,16 @@ class SaverLoader:
             return tournament
 
     def getAllActivity(self):
+        """
+        Récupère les informations du Json activity
+
+        Args:
+            None
+
+        Returns List :
+            Une liste d'activité
+
+        """
         listOfActivity = []
         with open("data/data/activity.json", 'r') as file:
             activities_data = json.load(file)
@@ -247,6 +410,17 @@ class SaverLoader:
             return listOfActivity
 
     def createActivityFromJson(self, data):
+        """
+        Récupère les informations du Json activity et les
+        retournent en instance activity
+
+        Args:
+            Lien d'accès du document
+
+        Returns Tournament :
+            Un tournoi
+
+        """
         activity_info = data.get("activity")
         date = datetime.datetime.strptime(activity_info.get("date"),
                                           "%Y-%m-%dT%H:%M:%S.%f")
@@ -256,6 +430,17 @@ class SaverLoader:
         return activity
 
     def loadSpecificTournament(self, id):
+        """
+        Récupère les informations d'un Json d'un tournoi et le
+        retourne en instance tournoi
+
+        Args:
+            Id d'un tournoi
+
+        Returns Tournament :
+            Un tournoi
+
+        """
         files_path = "data/tournaments"
         for file_name in os.listdir(files_path):
             if file_name.startswith(str(id)):

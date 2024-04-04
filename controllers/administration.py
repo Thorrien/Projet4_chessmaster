@@ -6,6 +6,17 @@ class Admin:
         pass
 
     def addmember(self, view, saverLoader):
+        """
+        Ajoute un nouveau joueur au Json du club.
+
+        Args:
+            view: Vue pour  la récupération des données.
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+
+        Returns:
+            None
+
+        """
         lastName, firstName, birthName, nrFFE, elo = view.addmember()
         player = Player(lastName, firstName)
         player.birthName = birthName
@@ -18,6 +29,18 @@ class Admin:
             saverLoader.savePlayer(player)
 
     def modifyMember(self, view, saverLoader):
+        """
+        Modifie une caractéristique d'un joueur du club.
+        Ensuite enregistre le joueur.
+
+        Args:
+            view: Vue pour  la récupération des données.
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+
+        Returns:
+            None
+
+        """
         while True:
             try:
                 nrFFE = view.modifyPlayer1()
@@ -45,6 +68,18 @@ class Admin:
                 view.modifyPlayer3()
 
     def printMember(self, view, saverLoader, rapportView):
+        """
+        Génère un tableau des joueurs du club.
+        Transfère le tableau à la vue adaptée.
+
+        Args:
+            view, rapportView: Vue pour  l'affichage des données.
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+
+        Returns:
+            None
+
+        """
         playerList = saverLoader.loadAllPlayers()
         playerList.sort(key=lambda player: player.firstName)
         playerList.sort(key=lambda player: player.lastName)
@@ -55,6 +90,18 @@ class Admin:
         rapportView.printMember(table)
 
     def printActivity(self, view, saverLoader, rapportView):
+        """
+        Génère un tableau des activité du logiciel (Logs).
+        Transfère le tableau à la vue adaptée.
+
+        Args:
+            view, rapportView: Vue pour  l'affichage des données.
+            saverLoader: Gestionnaire de sauvegarde et de chargement.
+
+        Returns:
+            None
+
+        """
         activityList = saverLoader.getAllActivity()
         activityList.sort(key=lambda activity: activity.date)
         table = [['Date', 'Activity']]
