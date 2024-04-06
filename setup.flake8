@@ -1,0 +1,4 @@
+[flake8]
+exclude = .git,__pycache__,env
+max-complexity = 20
+max-line-length = 119

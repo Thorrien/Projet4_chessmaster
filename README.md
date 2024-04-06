@@ -29,12 +29,14 @@ Cela lancera le programme ChessMaster, où vous pourrez accéder aux différente
 
 ## Générer un rapport Flake8 HTML
 
-En ayant l'environement virtuel d'actif, pour générer un nouveau rapport HTML à partir de Flake8, suivez les étapes suivantes :
+En ayant l'environement virtuel d'actif et après fait l'étape de la configuration,
+pour générer un nouveau rapport HTML à partir de Flake8,
+suivez les étapes suivantes :
 
-1. Exécutez Flake8 sur votre projet pour générer le rapport. Vous pouvez spécifier le format de sortie en utilisant l'option --format. Pour générer un rapport au format HTML, utilisez la commande suivante :
+1. Exécutez Flake8 sur votre projet pour générer le rapport. Vous pouvez spécifier le format de sortie en utilisant les options adaptés. Pour générer un rapport au format HTML, utilisez la commande suivante :
    
    ```bash
-    flake8 --exclude=env --format=html --htmldir=flake8_reports
+    flake8 --append-config=setup.flake8 --format=html --htmldir=flake8-report
     ```
 
 2. Cela générera un nouveau dossier flake8-report dans votre répertoire de projet contenant le fichier HTML du rapport. Vous pouvez maintenant ouvrir ce fichier dans votre navigateur pour consulter les résultats du linter.
@@ -47,6 +49,6 @@ En ayant l'environement virtuel d'actif, pour générer un nouveau rapport HTML 
 - Gérer les parties et les rounds de tournois.
 - Afficher des rapports sur les tournois et les joueurs.
 
-## Contributeurs
+## Auteur
 
 - BARILLER Eric
