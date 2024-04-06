@@ -42,6 +42,7 @@ class View:
     def addmember(self):
         choice = None
         while choice not in ['Quitter' or 'Oui']:
+            choice = "A"
             print('----------------------------------------------------------')
             print('------------------------ Ajouter un membre ---------------')
             print('----------------------------------------------------------')
